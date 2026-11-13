@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="kk"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Құс фермасы</title>
+<style>
+:root{--sky1:#9fd3f5;--sky2:#fff0c9;--far:#9fb0c8;--hill:#8cc271;--grass:#6fae55;--leaf:#4f9a45;--bg:#fff6dc;--card:#fff;--ink:#4a3320;--mut:#8a7358;--acc:#e8a33d;--ok:#5aa65a;--line:#f0dfb4;--bar:#f3e6c0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--sky1:#15203a;--sky2:#3a3350;--far:#4a5878;--hill:#2f5a3a;--grass:#264a30;--leaf:#2a5a38;--bg:#2a2218;--card:#3a2f21;--ink:#f6e8cc;--mut:#c2ab85;--line:#554630;--bar:#2a2218}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:linear-gradient(var(--sky1),var(--sky2)) fixed;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+.w{max-width:720px;margin:0 auto;padding:10px 12px 80px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;display:flex;gap:8px;align-items:center}
+.pill{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700}
+.top .sp{flex:1}
+button{font:inherit;border:0;border-radius:12px;padding:10px 14px;background:var(--acc);color:#3b2506;font-weight:700;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.g{background:var(--ok);color:#fff}
+.tabs{display:flex;gap:6px;margin:6px 0 10px}.tabs button{flex:1;background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.tabs button.on{background:var(--acc);color:#3b2506;border-color:var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.nest{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px;text-align:center;cursor:pointer;user-select:none}
+.nest .e{font-size:44px;line-height:1.1}.nest small{color:var(--mut);display:block}
+.nest.has{border-color:var(--ok);box-shadow:0 0 0 3px #5aa65a44}
+.bar{height:8px;background:var(--bar);border-radius:6px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--acc)}
+.row{display:flex;gap:8px;margin:10px 0}.row button{flex:1}
+.li{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 10px;margin-bottom:8px}
+.li .e{font-size:34px}.li .t{flex:1;min-width:0}.li b{display:block}.li small{color:var(--mut)}
+.c{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer}
+.c .e{font-size:34px}.c small{display:block;font-size:11px;color:var(--mut)}.c.lock .e{filter:grayscale(1) brightness(.3)}
+.m{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+.m.on{display:flex}.m div{background:var(--card);border-radius:20px;padding:20px;max-width:400px;width:100%;text-align:center;max-height:90vh;overflow:auto}.d{text-align:left;font-size:14px;line-height:1.45}.d p{margin:6px 0}.pic{background:var(--bar);border-radius:16px;padding:8px;margin-bottom:8px}
+.hero{position:relative;border-radius:18px;overflow:hidden;margin-bottom:10px;border:2px solid var(--line)}.hero svg{display:block;width:100%;height:auto}.ht{position:absolute;left:12px;top:8px;font-weight:800;color:#fff;text-shadow:0 1px 3px #0006}
+.bw{padding:2px 6px 0}.bw svg{display:block;width:100%;max-width:150px;margin:0 auto}
+.nb{height:16px;margin:-12px 6px 6px;border-radius:50%;background:radial-gradient(#c79a55,#8a5a2b);box-shadow:inset 0 -3px 0 #0003}.nb.l2,.nb.l3{background:radial-gradient(#d9b36a,#7a4a1f)}.nb.l4,.nb.l5{background:radial-gradient(#ffe08a,#b9801f);box-shadow:0 0 8px #ffd54f}
+.up{width:100%;margin-top:6px;padding:6px;font-size:13px}.nest.pop .bw{animation:pop .7s}@keyframes pop{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+#bg{position:fixed;left:0;right:0;bottom:0;height:min(50vw,45vh);z-index:-1;opacity:.85;pointer-events:none}#bg svg{width:100%;height:100%}
+.add{border-style:dashed;display:flex;flex-direction:column;justify-content:center}.hint{color:var(--mut);font-size:13px}.c svg{display:block;width:100%}
+.tabs{flex-wrap:wrap}.tabs button{min-width:30%;padding:8px 4px;font-size:13px}
+.rain{position:absolute;inset:0;background-image:linear-gradient(100deg,transparent 45%,#fff9 50%,transparent 55%);background-size:8px 24px;animation:rn .4s linear infinite;opacity:.5;pointer-events:none}@keyframes rn{to{background-position:-8px 24px}}
+.wind{position:absolute;left:0;top:50px;font-size:20px;animation:wd 6s linear infinite;pointer-events:none}@keyframes wd{from{transform:translateX(-60px)}to{transform:translateX(110vw)}}
+.ht2{position:absolute;right:10px;top:8px;background:#0005;color:#fff;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700}
+.ev{position:fixed;z-index:20;font-size:54px;line-height:1;background:none;border:0;padding:0;cursor:pointer;user-select:none}.fly{top:14%;left:100%;animation:fl 9s linear forwards}@keyframes fl{to{transform:translateX(-130vw)}}.raid{animation:shk .35s infinite alternate}@keyframes shk{from{transform:rotate(-12deg)}to{transform:rotate(12deg) scale(1.15)}}
+#hero3d{position:absolute;inset:0}.hero{height:clamp(230px,60vw,330px)}.hero svg{height:100%}
+.hero{height:clamp(310px,82vw,450px)}.tabs button{min-width:22%}.grid{grid-template-columns:repeat(auto-fill,minmax(116px,1fr))}.nest{padding:8px}.bw svg{max-width:96px}.up{padding:5px;font-size:12px}
+.qb{width:100%;text-align:left;margin:5px 0;background:var(--card);color:var(--ink);border:2px solid var(--line)}.qb.ok{background:#5aa65a;color:#fff;border-color:#5aa65a}.qb.no{background:#d9534f;color:#fff;border-color:#d9534f}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#4a3320;color:#fff;padding:8px 16px;border-radius:999px;opacity:0;transition:.3s;pointer-events:none;z-index:10}
+.toast.on{opacity:1}h3{margin:14px 0 8px}
+</style></head><body><div id="bg"></div><div class="w">
+<div class="top"><span class="pill" id="co"></span><span class="pill" id="ba"></span><span class="sp"></span><button id="mu" style="padding:8px 10px;background:var(--card);border:2px solid var(--line)">🔊</button><button class="g" id="sell">Сату</button></div>
+<div class="tabs"><button data-t="f">🌾 Ферма</button><button data-t="s">🛒 Дүкен</button><button data-t="b">🥖 Нан</button><button data-t="q">📜 Квест</button><button data-t="m">🗺 Әлем</button><button data-t="o">📦 Қойма</button><button data-t="z">🧠 Викторина</button><button data-t="k">📖 Коллекция</button></div>
+<div id="v"></div></div>
+<div class="m" id="m"><div id="mc"></div></div><div class="toast" id="to"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// [атауы, латынша, эмодзи, мәртебесі, ерекшелігі]
+const B=[
+["Көк кептер","Columba livia","🕊️","Отырықшы","Көгершіндер үйіне қайту жолын күн бағытымен, жер бедерімен және магнит өрісімен табады."],
+["Үй торғайы","Passer domesticus","🐦","Отырықшы","Топтасып тіршілік етіп, қауіп төнгенде бір-біріне дыбыспен белгі береді."],
+["Дала торғайы","Passer montanus","🐤","Отырықшы","Аталығы мен аналығының сыртқы келбеті бір-біріне өте ұқсас."],
+["Бозторғай","Alauda arvensis","🎵","Жыл құсы","Аспанға көтеріліп, бір орында қалықтап тұрып ән салады."],
+["Үлкен шымшық","Parus major","🐥","Отырықшы","Көптеген зиянкес жәндіктермен қоректеніп, ағаштарды қорғайды."],
+["Барылдауық үйрек","Anas platyrhynchos","🦆","Жыл құсы","Үй үйректерінің көптеген тұқымдары осы үйректен тараған."],
+["Сауысқан","Pica pica","🐦‍⬛","Отырықшы","Өте зерек, адамның бет-әлпетін есте сақтай алады."],
+["Кәдімгі сарықас","Phylloscopus collybita","🌿","Жыл құсы","Әні қайталанатын қысқа, сыңғырлаған дыбыстардан тұрады."],
+["Кәдімгі күйкентай","Falco tinnunculus","🦅","Жыртқыш","Жемтігін іздегенде ауада бір орында қалықтап тұра алады."],
+["Кәдімгі қызылқұйрық","Phoenicurus phoenicurus","🔥","Жыл құсы","Қонған кезде құйрығын жиі қозғалтып отырады."],
+["Сарыбас королек","Regulus regulus","⭐","Көшпелі","Еуропадағы ең кішкентай құстардың бірі, салмағы 5–7 грамм."],
+["Сары сарықас","Phylloscopus trochilus","🍃","Жыл құсы","Қыстау үшін Африкаға дейін ұшып барады."],
+["Кендір торғай","Linaria cannabina","🌾","Көшпелі","Негізінен өсімдік тұқымдарымен қоректенеді."],
+["Ұзынқұйрық шымшық","Aegithalos caudatus","☁️","Отырықшы-көшпелі","Мүк, қына және өрмекші торынан жабық ұя жасайды."],
+["Құлақты жапалақ","Asio otus","🦉","Түнгі жыртқыш","Басындағы «құлақтары» шын құлағы емес, қауырсыннан жасалған айдар."],
+["Кәдімгі чечетка","Acanthis flammea","❄️","Көшпелі","Суық аймақтарда тіршілікке бейімделген, көбіне топтасып жүреді."],
+["Қасқалдақ","Fulica atra","🦢","Жыл құсы","Үйрекке ұқсаса да, сутартарлар тобына жатады."],
+["Көк шымшық","Cyanistes caeruleus","💙","Отырықшы","Жіңішке бұтаққа басын төмен қаратып ілініп, жәндіктерді теріп жейді."],
+["Сұр қаз","Anser anser","🪿","Жыл құсы","Үй қаздарының көптеген тұқымдары осы қаздан тараған."],
+["Кәдімгі тауқұдірет","Troglodytes troglodytes","🪵","Көшпелі","Кішкентай болса да, дауысы қатты әрі анық естіледі."],
+["Сұр құтан","Ardea cinerea","🎣","Жыл құсы","Балық аулағанда суда ұзақ қозғалмай тұра алады."],
+["Үлкен сұқсыр","Podiceps cristatus","🌊","Жыл құсы","Балапандары алғашқы апталарда ата-анасының арқасында жүреді."],
+["Қара сайрақ","Turdus merula","🎶","Жыл құсы","Әні әуезді әрі әртүрлі дыбыстардан құралады."],
+["Көл шағаласы","Chroicocephalus ridibundus","🌅","Жыл құсы","Қорегін судан да, құрлықтан да іздей алады."],
+["Ала қарға","Corvus cornix","🧠","Отырықшы","Құралдарды пайдаланып, күрделі тапсырмаларды шешеді."],
+["Ұзақ","Corvus frugilegus","🏰","Көшпелі","Үлкен топпен тіршілік етіп, ағаштарға колония құрып ұя салады."],
+["Ақ шақшақай","Motacilla alba","💃","Жыл құсы","Жерде секіріп қана қоймай, аяғын жылдам басып жүгіреді."],
+["Сыбырлақ аққу","Cygnus olor","👑","Жыл құсы","Қауіп төнгенде немесе аумағын қорғағанда ысылдайды."]];
+const price=i=>Math.round(20*Math.pow(1.32,i)),val=i=>Math.max(1,Math.round(price(i)/12)),secs=i=>Math.round(8+i*.7),CAP=6;
+const nestCost=n=>Math.round(60*Math.pow(1.9,n-1));
+// [келбеті, тұрғындарға кеңес]
+const D=[
+["Қауырсыны сұрғылт-көк, мойны жасыл-күлгін реңкпен жылтырайды, қанатында екі қара жолағы бар.","Бидай, арпа немесе арнайы құс жемін беруге болады. Нан мен тұзды тағам бермеңіз."],
+["Арқасы қоңыр-шұбар, кеудесі сұрғылт. Аталығының төбесі сұр, тамағында қара дағы бар.","Қыста жемшашарға тары, сұлы және қуырылмаған күнбағыс дәнін салыңыз."],
+["Үй торғайына ұқсайды, бірақ төбесі қоңыр, екі бетінде қара дақтары бар.","Қыста жемшашарға ұсақ дәндер мен күнбағыс дәндерін салыңыз."],
+["Қоңыр-сұр түсті, қауырсындарында қара дақтары бар, басында кішкентай айдары болады.","Көктемде шөп арасына ұя салуы мүмкін, сондықтан табиғи аймақтарда ұяларды таптамаңыз."],
+["Бауыры сары, ортасында қара жолағы бар. Басы қара, беті ақ.","Жемшашарға тұздалмаған күнбағыс дәнін салыңыз. Тұзды және қуырылған тағам бермеңіз."],
+["Аталығының басы жасыл, мойнында ақ сақинасы бар. Аналығы қоңыр-шұбар түсті.","Үйректерге нан мен чипсы бермеңіз, табиғи қорегін өздері тапсын."],
+["Ақ-қара түсті, құйрығы ұзын, қанаттары жасыл-көк реңкпен жылтырайды.","Қорегін өздері табады, арнайы тамақтандырудың қажеті жоқ."],
+["Өте кішкентай, арқасы зәйтүн-сұр, бауыры ақшыл, аяқтары қара түсті.","Жәндіктермен қоректенеді. Ұя салатын бұталарды мазаламаңыз."],
+["Арқасы қызғылт-қоңыр, қара дақтары бар. Аталығының басы мен құйрығы сұр түсті.","Жабайы жыртқыш: тамақтандыруға немесе жақын баруға болмайды."],
+["Құйрығы мен кеудесі қызғылт-сары. Аталығының тамағы қара, маңдайы ақ түсті.","Көктемде ұя салатын ағаш қуыстары мен құс үйшіктерін мазаламаңыз."],
+["Өте кішкентай, жасылдау-сұр түсті. Басының төбесінде ашық сары жолағы бар.","Шырша мен қарағайларды қорғаңыз, бұл құстар солардың арасында қоректенеді."],
+["Арқасы жасылдау-қоңыр, бауыры сарғыш-ақ. Аяқтары салыстырмалы түрде ашық түсті.","Ағаштар мен бұталарды қорғап, оның тіршілік ортасын сақтаңыз."],
+["Қоңырқай түсті. Жазда аталығының маңдайы мен кеудесінде қызыл дақтар байқалады.","Қалың бұталарды қорғаңыз: олар қоректенуге және ұя салуға қолайлы."],
+["Ақ, қара және қызғылт реңкті кішкентай үлпілдек құс. Құйрығы денесінен ұзын.","Қалың бұталар мен ағаштарды сақтаңыз. Қыста жемшашарға ұсақ дән салыңыз."],
+["Қоңыр-шұбар қауырсынды, көзі қызғылт-сары. Басында қауырсыннан құралған «құлақтары» бар.","Күндіз ағашта отырған жапалақты мазаламаңыз, жақын бармаңыз, жарқылды қолданбаңыз."],
+["Қоңыр-сұр түсті шұбар құс. Маңдайында қызыл дағы, иегінің астында қара белгісі бар.","Қыста жемшашарға ұсақ дәндер мен күнбағыс дәндерін салыңыз."],
+["Денесі қара, тұмсығы мен маңдайында ақ тақташасы бар.","Қамыс арасындағы ұяларын мазаламаңыз. Су айдындарына қоқыс тастамаңыз."],
+["Бауыры сары, беті ақ, төбесі мен қанаттары көгілдір түсті.","Қыста жемшашарға тұздалмаған күнбағыс дәнін салыңыз."],
+["Ірі сұр-қоңыр құс. Тұмсығы қызғылт-сары, аяқтары қызғылт түсті.","Қаздарға нан мен тәтті тоқаш бермеңіз. Ұя салатын кезеңде олардан алыс жүріңіз."],
+["Қоңыр-жолақты, денесі кішкентай, құйрығы қысқа әрі көбіне жоғары көтеріліп тұрады.","Бұталар мен құлаған ағаштарды тазалағанда ұяларына зиян келтірмеңіз."],
+["Мойны ұзын, денесі сұр, басында қара жолақтары бар. Тұмсығы ұзын әрі үшкір.","Құтанды алыстан бақылаңыз. Су жағасындағы табиғи ортаны ластамаңыз."],
+["Мойны ұзын, денесі ақшыл-қоңыр. Көктемде басында қара айдары мен қызғылт-қоңыр жағасы пайда болады.","Су айдындарын таза ұстаңыз және ұя салатын қамыс арасына жақындамаңыз."],
+["Аталығы қара түсті, тұмсығы сары. Аналығы қоңыр түсті.","Күзде ағаштардағы жидектерді жұлмаңыз: олар құстардың табиғи қорегі."],
+["Денесі ақ, қанаттары сұр. Жазда басы қою қоңыр, қыста ақшыл болады.","Шағалаларға нан, чипсы және тұзды тағам бермеңіз. Су айдындарын таза ұстаңыз."],
+["Денесінің көп бөлігі сұр, ал басы, қанаттары мен құйрығы қара түсті.","Қоқыс пакеттерін ашық қалдырмаңыз: қарғалар тамақ іздеп, қоқысты шашуы мүмкін."],
+["Қауырсыны қара, күлгін металл реңкімен жылтырайды. Ересек құстың тұмсығының түбі қауырсынсыз, ақшыл.","Ағаштардағы ұя салатын орындарын сақтаңыз. Ұяларына жақындамаңыз."],
+["Ақ, қара және сұр түсті. Құйрығы ұзын және оны жиі жоғары-төмен қозғалтады.","Жәндіктермен қоректенеді. Оны үркітпеңіз және ұясын бұзбаңыз."],
+["Денесі аппақ, мойны иілген, тұмсығы қызғылт-сары, түбінде қара төмпешігі бар.","Аққуларға нан мен тәтті тағам бермеңіз. Алыстан бақылап, ұяларына жақындамаңыз."]];
+// 2D модель түстері: [дене,бас,бауыр,қанат,тұмсық,мойын 0-2,құйрық 0-2,айдар(түс|"e"=құлақ|0),белгі]
+const P=[
+["#8a94a6","#6c7aa0","#aab3c2","#7b8498","#333",0,1,0,0],["#8b6a45","#8f8f8f","#b9b2a6","#6b4a2b","#4a4a4a",0,1,0,"#222"],
+["#9b7248","#7a4a2a","#cfc6b5","#7a5a38","#444",0,1,0,"#222"],["#9a8566","#8a7558","#d8cdb5","#6e5a3f","#8a7a60",0,1,"#8a7558",0],
+["#8c9a6a","#1c1c1c","#f2c230","#5f7a8a","#222",0,1,0,"#fff"],["#9a8f7a","#1f7a4a","#d6cdb8","#7b6f5a","#e3c030",1,0,0,"#fff"],
+["#1b1b1b","#1b1b1b","#fff","#2c6e85","#111",0,2,0,0],["#8a8f5e","#8a8f5e","#e4dfc0","#75794e","#333",0,1,0,0],
+["#b5683a","#8f9aa6","#e0b98a","#a4562c","#d4b030",0,2,0,0],["#8d8d8d","#7a7f88","#e07b2e","#8d8378","#222",0,1,0,"#fff"],
+["#8a9a6a","#8a9a6a","#d4d8b8","#6f7d55","#333",0,0,"#f2d01f",0],["#8a8a4a","#8a8a4a","#f2edb0","#77773f","#333",0,1,0,0],
+["#9a6e46","#8a8a8a","#e3d6c2","#7a5530","#666",0,1,0,"#d93a3a"],["#2a2a2a","#fff","#f3c9d0","#3b3b3b","#222",0,2,0,0],
+["#a68a62","#a68a62","#d9c49a","#856a45","#333",0,0,"e",0],["#8a7a68","#8a7a68","#e8ded2","#6a5a48","#e0b030",0,1,0,"#d93a3a"],
+["#2b2b2b","#1e1e1e","#3a3a3a","#333","#f4f4f4",1,0,0,"#fff"],["#5f8fd0","#4a7fc0","#f2d33a","#4a7fc0","#222",0,1,0,"#fff"],
+["#8f8272","#9b8d7c","#c9bfb0","#75685a","#f08a2e",1,0,0,0],["#8a5a35","#8a5a35","#b08a5e","#6f4627","#444",0,1,0,0],
+["#8f9aa6","#d7dde3","#cdd4db","#6f7a86","#e3a030",2,0,0,"#222"],["#9a7f5a","#ececec","#f2f2f2","#7a6040","#e8574a",2,0,"#222","#c76a3a"],
+["#1d1d1d","#1d1d1d","#2a2a2a","#111","#f0b020",0,1,0,0],["#f4f4f4","#5a3a28","#fff","#9aa6b3","#c8402e",0,1,0,0],
+["#9a9a9a","#1b1b1b","#a9a9a9","#1b1b1b","#111",0,1,0,0],["#25222e","#2d2838","#2d2838","#1f1c28","#d8d4cc",0,1,0,0],
+["#8e949a","#f4f4f4","#f4f4f4","#4a4a4a","#222",0,2,0,"#222"],["#fff","#fff","#f4f4f4","#ececec","#f08a2e",2,0,0,"#222"]];
+function bird(i){const [bd,hd,bl,wg,bk,nk,tl,cr,mk]=P[i],hx=[140,146,150][nk],hy=[72,56,30][nk],r=nk==2?11:15,L=22+tl*20,ow=cr=="e";
+ let s=`<svg viewBox="0 0 200 160" width="100%" style="max-width:260px"><ellipse cx="100" cy="150" rx="70" ry="5" fill="#0002"/><path d="M96 118v26M114 118v26" stroke="#c9822a" stroke-width="4" stroke-linecap="round"/><polygon points="62,78 ${62-L},96 62,102" fill="${wg}"/><line x1="125" y1="84" x2="${hx}" y2="${hy}" stroke="${hd}" stroke-width="${nk?16:22}" stroke-linecap="round"/><ellipse cx="100" cy="92" rx="46" ry="30" fill="${bd}"/><ellipse cx="108" cy="104" rx="34" ry="17" fill="${bl}"/><ellipse cx="92" cy="90" rx="30" ry="15" fill="${wg}" transform="rotate(-12 92 90)"/><circle cx="${hx}" cy="${hy}" r="${r}" fill="${hd}"/>`;
+ if(mk)s+=`<ellipse cx="${hx+2}" cy="${hy-r*.55}" rx="${r*.6}" ry="${r*.35}" fill="${mk}"/>`;
+ if(ow)s+=`<polygon points="${hx-12},${hy-r+3} ${hx-14},${hy-r-12} ${hx-2},${hy-r}" fill="#5a4630"/><polygon points="${hx+2},${hy-r} ${hx+8},${hy-r-12} ${hx+12},${hy-r+3}" fill="#5a4630"/>`;
+ else if(cr)s+=`<polygon points="${hx-8},${hy-r+2} ${hx-18},${hy-r-12} ${hx+2},${hy-r}" fill="${cr}"/>`;
+ s+=`<polygon points="${hx+r-3},${hy-4} ${hx+r+15},${hy+2} ${hx+r-3},${hy+6}" fill="${bk}"/>`;
+ s+=ow?`<circle cx="${hx+4}" cy="${hy-2}" r="6" fill="#f08a1c"/><circle cx="${hx+5}" cy="${hy-2}" r="2.5" fill="#000"/>`:`<circle cx="${hx+4}" cy="${hy-3}" r="2.6" fill="#111"/><circle cx="${hx+5}" cy="${hy-4}" r=".9" fill="#fff"/>`;
+ return s+"</svg>"}
+// дыбыс (WebAudio, файлсыз)
+let AC;function ac(){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=="suspended")AC.resume()}catch(e){}return AC}
+function tn(f,d,t,v,w,f2){const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain(),s=a.currentTime+(w||0);o.type=t||"sine";o.frequency.setValueAtTime(f,s);if(f2)o.frequency.exponentialRampToValueAtTime(f2,s+d);g.gain.setValueAtTime(.0001,s);g.gain.exponentialRampToValueAtTime(v||.15,s+.01);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(a.destination);o.start(s);o.stop(s+d+.05)}
+function snd(k){if(S.mute)return;if(k=="tab")tn(440,.09,"triangle",.12,0,660);else if(k=="new"){[523,659,784,1047].forEach((f,j)=>tn(f,.22,"triangle",.16,j*.12));tn(1800,.12,"sine",.08,.5,2600);tn(2200,.1,"sine",.08,.66,3000)}else if(k=="sell"){tn(988,.08,"square",.07);tn(1319,.2,"square",.07,.08)}else if(k=="pop")tn(300,.08,"sine",.15,0,700);else if(k=="buy"){tn(660,.1,"triangle",.14);tn(880,.15,"triangle",.14,.09)}}
+const K="kusferma1";let S;
+function fresh(){const now=Date.now();return{coins:100,basket:0,nests:[{b:0,t:now,e:0}],seen:B.map((_,i)=>i==0),tab:"f"}}
+try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.nests)S=fresh();
+const ML=5,nsecs=n=>secs(n.b)*Math.pow(.85,n.l||0),ncap=n=>CAP+2*(n.l||0),nval=n=>Math.max(1,Math.round(val(n.b)*(1+.25*(n.l||0))*vm())),ucost=n=>Math.round((40+price(n.b)*.7)*Math.pow(1.7,n.l||0));
+function tree(x){return `<rect x='${x-3}' y='124' width='6' height='40' fill='#7a4f2a'/><g style='fill:var(--leaf)'><circle cx='${x}' cy='108' r='22'/><circle cx='${x+15}' cy='118' r='14'/><circle cx='${x-15}' cy='118' r='14'/></g><ellipse cx='${x}' cy='122' rx='9' ry='4' fill='#8b5a2b'/><ellipse cx='${x-2}' cy='120' rx='2' ry='2.6' fill='#fff'/><ellipse cx='${x+2}' cy='120' rx='2' ry='2.6' fill='#fff'/><ellipse cx='${x+14}' cy='105' rx='7' ry='3' fill='#8b5a2b'/><ellipse cx='${x+14}' cy='103.5' rx='1.6' ry='2.2' fill='#fff'/>`}
+function scene0(sky){return `<svg viewBox='0 0 400 200' preserveAspectRatio='xMidYMax slice'>${sky?`<defs><linearGradient id='sg' x1='0' y1='0' x2='0' y2='1'><stop offset='0' style='stop-color:var(--sky1)'/><stop offset='1' style='stop-color:var(--sky2)'/></linearGradient></defs><rect width='400' height='200' fill='url(#sg)'/><circle cx='345' cy='38' r='16' fill='#ffd966'/><g fill='#fff' opacity='.85'><ellipse cx='70' cy='34' rx='26' ry='8'/><ellipse cx='92' cy='28' rx='16' ry='7'/><ellipse cx='240' cy='22' rx='24' ry='7'/></g><path d='M130 60q4-5 8 0q4-5 8 0M160 48q4-5 8 0q4-5 8 0' stroke='#556' fill='none' stroke-width='1.5'/>`:''}<g style='fill:var(--far)'><rect x='48' y='132' width='44' height='18'/><path d='M58 132a12 12 0 0 1 24 0z'/><rect x='69' y='108' width='2' height='12'/><circle cx='125' cy='128' r='17'/><rect x='108' y='136' width='34' height='14'/><path d='M196 150l3-44h2l3 44z'/><circle cx='200' cy='100' r='9'/><rect x='199.2' y='84' width='1.6' height='8'/><path d='M250 150l8-24 12-14 3-12 3 12 12 14 8 24z'/><rect x='310' y='120' width='14' height='30'/><rect x='326' y='108' width='12' height='42'/><rect x='340' y='124' width='18' height='26'/><rect x='14' y='124' width='14' height='26'/><rect x='30' y='114' width='12' height='36'/><rect x='148' y='126' width='12' height='24'/><rect x='164' y='118' width='14' height='32'/><rect x='214' y='128' width='12' height='22'/></g><path d='M0 150Q80 132 160 148T330 144T400 148V200H0z' style='fill:var(--hill)'/><rect y='158' width='400' height='42' style='fill:var(--grass)'/>${tree(26)}${tree(374)}</svg>`}
+function upg(i,ev){ev.stopPropagation();const n=S.nests[i];if(!n||n.b==null||(n.l||0)>=ML)return;const c=ucost(n);if(S.coins<c)return;S.coins-=c;n.l=(n.l||0)+1;S.q.upg++;gx(4);snd('buy');toast('Ұя жаңартылды! ⭐'+n.l);save();render()}
+const goS=()=>go('s');
+function farm(){const tot=S.nests.reduce((a,n)=>a+n.e,0),nc=nestCost(S.nests.length);let h=`<div class='hero'>${scene(1)}<div id='hero3d'></div><div class='ht'>🌾 ${RG[S.reg||0][0]} · 🏅${S.fl||1}-дең. (${S.fx||0}/${need()} XP)</div>${wxHtml()}</div><div class='row'><button class='g' onclick='collectAll()' ${tot?'':'disabled'}>🥚 Бәрін жинау (${tot})</button><button onclick='pour()'>🌾 Жем салу</button></div><div class='grid'>`;
+ S.nests.forEach((n,i)=>{if(n.b==null){h+=`<div class='nest' onclick='goS()'><div class='e'>🪹</div><b>Бос ұя</b><small>Құс сатып ал</small></div>`;return}
+  const l=n.l||0,c=ucost(n),mx=l>=ML,p=n.e>=ncap(n)?100:Math.min(100,(Date.now()-n.t)/(nsecs(n)*10));
+  h+=`<div class='nest ${n.e?'has':''} ${S.pop===i?'pop':''}' onclick='tap(${i})'><div class='bw'>${bird(n.b)}<div class='nb l${l}'></div></div><b>${B[n.b][0]}</b><small>${l?'⭐'.repeat(l):'Деңгей 0'}</small><div class='bar'><i style='width:${p}%'></i></div><small>🥚 ${n.e}/${ncap(n)} · 🪙${nval(n)}</small><button class='up' onclick='upg(${i},event)' ${mx||S.coins<c?'disabled':''}>${mx?'Максимум':'⬆ Жаңарту 🪙 '+c}</button><button class='up' style='background:var(--card);color:var(--ink);border:2px solid var(--line)' onclick='tos(${i},event)'>📦 Қоймаға</button></div>`});
+ h+=`<div class='nest add' style='${S.coins<nc?'opacity:.5':''}' onclick='buyNest()'><div class='e'>➕</div><b>Жаңа ұя</b><small>🪙 ${nc}</small></div></div><p class='hint'>⭐ Ұяны жаңартсаң: жұмыртқа 15% тезірек туады, сыйымдылық +2, әр жұмыртқа 25% қымбат.</p>`;return h}
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+const $=id=>document.getElementById(id);
+function tick(){const now=Date.now();misc(now);let rk=0;S.nests.forEach(n=>{if(n.b==null)return;rk++;const iv=nsecs(n)*1000/M()/(rk>copCap()?.8:1),cp=ncap(n);if(n.e>=cp){n.t=now;return}const k=Math.floor((now-n.t)/iv);if(k>0){n.e=Math.min(cp,n.e+k);n.t=n.e>=cp?now:n.t+k*iv}})}
+function toast(t){const e=$("to");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1400)}
+function collect(n){if(n.e>0){S.basket+=n.e*1;n.e=0;n.t=Date.now()}}
+function render(){
+ $("co").textContent="🪙 "+S.coins+(S.gf?" · 🪶"+S.gf:"");$("ba").textContent="🧺 "+S.basket+" 🥚 · 🌾"+Math.floor(S.feed||0);$("sell").disabled=!S.basket;
+ document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.t==S.tab));
+ let h="";
+ if(S.tab=="f"){h=farm()}else if(S.tab=="b"){h=bakery()}else if(S.tab=="q"){h=quests2()}else if(S.tab=="m"){h=world2()}else if(S.tab=="o"){h=storeHtml()}else if(S.tab=="z"){h=quizHtml()}else if(S.tab=="x"){
+  const tot=S.nests.reduce((a,n)=>a+n.e,0);
+  h+=`<div class="row"><button class="g" onclick="collectAll()" ${tot?"":"disabled"}>🥚 Бәрін жинау (${tot})</button></div><div class="grid">`;
+  S.nests.forEach((n,i)=>{if(n.b==null){h+=`<div class="nest" onclick="go('s')"><div class="e">🪹</div><b>Бос ұя</b><small>Құс сатып ал</small></div>`;return}
+   const p=n.e>=CAP?100:Math.min(100,(Date.now()-n.t)/(secs(n.b)*10));
+   h+=`<div class="nest ${n.e?"has":""}" onclick="tap(${i})"><div class="e">${B[n.b][2]}</div><b>${B[n.b][0]}</b><div class="bar"><i style="width:${p}%"></i></div><small>${"🥚".repeat(n.e)}</small></div>`});
+  h+="</div>";
+ }else if(S.tab=="s"){
+  const emp=S.nests.filter(n=>n.b==null).length,nc=nestCost(S.nests.length);
+  h+=`<div class="li"><div class="e">🪹</div><div class="t"><b>Жаңа ұя</b><small>Қазір: ${S.nests.length} ұя, бос: ${emp}</small></div><button onclick="buyNest()" ${S.coins>=nc?"":"disabled"}>🪙 ${nc}</button></div>${coopHtml()}${feedHtml()}${decorHtml()}${bizHtml()}<h3>Құстар</h3>`;
+  B.forEach((b,i)=>{h+=`<div class="li"><div class="e">${b[2]}</div><div class="t"><b>${b[0]}</b><small>${b[3]} · 🥚 ${val(i)}🪙 / ${secs(i)} сек</small></div><button onclick="buyBird(${i})" ${S.coins>=price(i)&&emp&&(S.fl||1)>=breq(i)?"":"disabled"}>${(S.fl||1)<breq(i)?"🔒 "+breq(i)+" дең.":"🪙 "+price(i)}</button></div>`});
+ }else{
+  const c=S.seen.filter(Boolean).length;
+  h+=`<p><b>Фермада: ${c} / 28 · барлық анықтама ашық</b></p><div class="grid">`;
+  B.forEach((b,i)=>{const s=S.seen[i];h+=`<div class="c " onclick="info(${i})">${bird(i)}<small>${b[0]}${s?" ✅":""}</small></div>`});
+  h+="</div>";
+ }
+ if(S.tab=="k")h+=rbHtml();$("v").innerHTML=h;if(window.attach3d)attach3d();
+}
+function go(t){S.tab=t;snd("tab");save();render()}
+function tap(i){if(S.nests[i].e)snd("pop");collect(S.nests[i]);save();render()}
+function collectAll(){S.nests.forEach(collect);save();render()}
+function buyNest(){const c=nestCost(S.nests.length);if(S.nests.length>=maxN()){toast('Ферма деңгейін көтер: ұя лимиті '+maxN()+' 🏅');return}if(S.coins<c)return;S.coins-=c;S.nests.push({b:null,t:Date.now(),e:0});toast("Жаңа ұя ашылды! 🪹");save();render()}
+function buyBird(i){const n=S.nests.find(n=>n.b==null);if(!n||S.coins<price(i)||(S.fl||1)<breq(i))return;S.coins-=price(i);n.b=i;n.t=Date.now();n.e=0;
+ const nw=!S.seen[i];S.seen[i]=true;snd(nw?"new":"buy");toast(nw?"Коллекцияға жаңа құс қосылды! ✨":B[i][0]+" сатып алынды");S.tab='f';S.pop=S.nests.indexOf(n);save();render();window.scrollTo(0,0);setTimeout(()=>{S.pop=-1},900)}
+function info(i){const b=B[i];
+ $("mc").innerHTML=`<div class="pic">${bird(i)}<small>2D модель</small></div><h2 style="margin:6px 0">${b[2]} ${b[0]}</h2><i>${b[1]}</i><div class="d"><p><b>Мәртебесі:</b> ${b[3]}</p><p><b>Келбеті:</b> ${D[i][0]}</p><p><b>Кеңес:</b> ${D[i][1]}</p><p><b>Факт:</b> ${b[4]}</p><p><small>Баға 🪙 ${price(i)} · 🥚 ${val(i)}🪙 әр ${secs(i)} сек</small></p></div><button onclick="$('m').classList.remove('on')">Жабу</button>`;
+ $("m").classList.add("on")}
+$("m").onclick=e=>{if(e.target.id=="m")$("m").classList.remove("on")};
+$("sell").onclick=()=>{let t=0;S.nests.forEach(n=>{});/* жұмыртқа бағасы құсқа байланысты: себетте орташа баға */
+ S.coins+=Math.round(S.basket*(S.avg||1));toast("Сатылды: +"+Math.round(S.basket*(S.avg||1))+" 🪙");S.basket=0;S.avg=1;save();render()};
+// себет құнын дәл есептеу үшін жинау кезінде бағасын қосамыз
+collect=function(n){if(n.e>0){const v=nval(n);S.coins+=0;S.val=(S.val||0);S.basket+=n.e;S.q.eggs+=n.e;n.xp=(n.xp||0)+n.e;S.avgSum=(S.avgSum||0)+n.e*v;n.e=0;n.t=Date.now();S.avg=S.avgSum/S.basket}};
+$("sell").onclick=()=>{const g=Math.round(S.avgSum||0);snd("sell");S.coins+=g;S.run+=g;S.q.earn=(S.q.earn||0)+g;toast("Сатылды: +"+g+" 🪙");S.basket=0;S.avgSum=0;S.avg=1;save();render()};
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>go(b.dataset.t));
+$("mu").textContent=S.mute?"🔇":"🔊";$("mu").onclick=()=>{S.mute=!S.mute;$("mu").textContent=S.mute?"🔇":"🔊";save();snd("tab")};
+const RG=[['Астана','🏙️',0,'Бәйтерек пен Хан Шатыр'],['Алматы','🏙️',2000,'Алматы қаласы мен қарлы таулар'],['Ауыл','🏡',8000,'Үйлер, диірмен және шөп үйінділері'],['Таулы аймақ','🌲',25000,'Қарағайлы орман мен жартастар']];
+const BR=[['Бауырсақ','🍩',5,1.5,10],['Шәй тәттілері','🧁',20,2,25],['Торт','🎂',50,3,50]];
+const QS=[['100 жұмыртқа жинау','eggs',100,150],['Ұяны 3 рет жақсарту','upg',3,200],['2 тағам пісіру','bake',2,250],['3 жыртқышты қуу','chase',3,200],['Бүркітті ұстау','eagle',1,300]];
+const AUC=[300,1500,6000],AUI=[0,15,8,4],RC=[3000,10000,30000];let PC=0,SK='',EV={e:Date.now()+30000,r:Date.now()+60000};
+const RB=[['Қоқиқаз','Phoenicopterus roseus','Қауырсыны туғанда қызғылт емес: түсі қорегіндегі табиғи пигменттерден өзгереді. Үлкен топпен жүреді, жазда Қорғалжың көлдерінде балапан өсіреді.','Қызғылт қауырсынды, аяғы мен мойны ұзын, иілген тұмсықты су құсы.'],['Дуадақ','Otis tarda','Ұшатын құстардың ішіндегі ең ауырларының бірі. Көбіне жерде жүреді, ашық дала мен егістікті жақсы көреді.','Ірі дала құсы: арқасы құмды-қоңыр, басы мен мойны сұрғылт, кеудесі ақшыл.'],['Сұңқылдақ аққу','Cygnus cygnus','Дауысы мүйіздей сұңқылдап шығады, атауы да осыдан. Сирек су құсы, көл жағалауларын қорғау маңызды.','Денесі ақ, мойны ұзын, тұмсығының түбі сары, ұшы қара.']];
+P.push(['#f4a6b8','#f4a6b8','#f7c3cf','#e0607a','#f3b8b0',2,0,0,0],['#b88a55','#9aa3ab','#f2eee6','#8a6a3f','#8a7a60',1,1,0,0],['#fff','#fff','#f4f4f4','#ececec','#f5d020',2,0,0,0]);
+const LT=`<g fill='#ffe9a0'><circle cx='200' cy='100' r='9'/><path d='M250 150l8-24 12-14 3-12 3 12 12 14 8 24z' opacity='.8'/><circle cx='125' cy='128' r='17' opacity='.55'/><rect x='312' y='126' width='3' height='3'/><rect x='318' y='134' width='3' height='3'/><rect x='329' y='114' width='3' height='3'/><rect x='329' y='126' width='3' height='3'/><rect x='346' y='132' width='3' height='3'/><rect x='18' y='132' width='3' height='3'/><rect x='34' y='122' width='3' height='3'/><rect x='34' y='134' width='3' height='3'/><rect x='168' y='126' width='3' height='3'/></g>`;
+const LS=[`<path d='M0 152L50 96L80 126L140 64L215 150L280 88L340 140L400 104V152Z' style='fill:var(--far)'/><path d='M140 64l-14 20 8-3 6 7 6-7 8 3zM280 88l-12 16 7-3 5 6 6-6 7 3zM50 96l-10 14 6-2 4 5 5-5 6 2z' fill='#fff'/>`,`<rect y='128' width='400' height='30' fill='#4aa3c7'/><path d='M20 138q8-4 16 0t16 0M150 146q8-4 16 0t16 0M290 136q8-4 16 0t16 0' stroke='#fff' fill='none' opacity='.7'/><path d='M208 124V98l16 26z' fill='#fff'/><path d='M198 126h34l-6 8h-22z' fill='#8a5a2b'/>`,`<path d='M0 152L60 120L90 126L130 100L170 124L400 150V152Z' style='fill:var(--far)'/><path d='M250 150L270 110L290 100L320 112L350 150Z' fill='#8a8f96'/><g style='fill:var(--leaf)'><path d='M180 150l10-30l10 30zM200 150l10-36l10 36zM300 150l9-28l9 28z'/></g>`];
+function night(){return (Date.now()/1000)%240>=130}
+function wx(){return ((Math.floor(Date.now()/60000)*2654435761)>>>0)%100<50?0:((Math.floor(Date.now()/60000)*2654435761)>>>0)%100<75?1:2}
+function M(){return [1.2,.8,.9][wx()]*(S.boost>Date.now()?2:1)*(S.bowl>0?1.5:1)}
+function vm(){return (1+.1*(S.gf||0))*(1+.15*((S.ru||[1]).reduce((a,b)=>a+b,0)-1))*(1+.1*(S.rbo||[]).reduce((a,b)=>a+b,0))}
+function setSky(f){const n=night(),k=n+'|'+S.reg;if(!f&&k==SK)return;SK=k;const st=document.documentElement.style,c=n?['#0b1230','#2c2a55','#3a4466','#1f3d2c','#183326','#1d4a2e']:['#9fd3f5','#fff0c9','#9fb0c8','#8cc271','#6fae55','#4f9a45'];['--sky1','--sky2','--far','--hill','--grass','--leaf'].forEach((v,i)=>st.setProperty(v,c[i]));$('bg').innerHTML=scene(0)}
+function scene(sky){let s=scene0(sky),r=S.reg||0,n=night();if(sky&&n)s=s.replace(`<circle cx='345' cy='38' r='16' fill='#ffd966'/>`,`<circle cx='345' cy='38' r='13' fill='#f4f1d0'/><g fill='#fff'><circle cx='60' cy='20' r='1.2'/><circle cx='150' cy='30' r='1'/><circle cx='230' cy='14' r='1.3'/><circle cx='290' cy='40' r='1'/></g>`);if(r==0)return n?s.replace(`<path d='M0 150Q80 132`,LT+`<path d='M0 150Q80 132`):s;return s.replace(/<g style='fill:var\(--far\)'>.*?<\/g>/,LS2[r-1])}
+function wxHtml(){const w=wx();return (w==1?`<div class='rain'></div>`:'')+(w==2?`<div class='wind'>🍃 💨 🍃</div>`:'')+`<div class='ht2'>${night()?'🌙 Түн':'🌞 Күн'} · ${['Ашық ×1.2','🌧️ Жаңбыр ×0.8','💨 Жел ×0.9'][w]}${S.boost>Date.now()?' · ⚡×2':''}</div>`}
+function mk(cls,t,fn,life){const d=document.createElement('button');d.className='ev '+cls;d.textContent=t;d.onclick=()=>{d.remove();fn(true)};document.body.appendChild(d);setTimeout(()=>{if(d.isConnected){d.remove();fn(false)}},life);return d}
+function evs(){const now=Date.now();if(now>EV.e){EV.e=now+40000+Math.random()*50000;mk('fly','🦅',ok=>{if(!ok)return;S.q.eagle++;snd('new');if(Math.random()<.5){const g=Math.round(50+(S.run||0)*.03+S.nests.length*30);S.coins+=g;S.run+=g;toast('🦅 Бүркіт сыйы: +'+g+' 🪙')}else{S.boost=Date.now()+30000;toast('🦅 Жылдамдық ×2 · 30 сек!')}save()},9000)}
+ if(now>EV.r){EV.r=now+60000+Math.random()*60000;if(S.nests.some(n=>n.e>0)){const d=mk('raid',Math.random()<.5?'🦊':'🐦‍⬛',ok=>{if(ok){S.q.chase++;snd('pop');toast('Қуылды! 👏')}else{let t=0;S.nests.forEach(n=>{const s=Math.ceil(n.e*.4);n.e-=s;t+=s});toast('Ұрлап кетті! −'+t+' 🥚 😱');save()}},7000);d.style.left=(10+Math.random()*70)+'%';d.style.top=(45+Math.random()*30)+'%'}}}
+function misc(now){const dd=new Date().toDateString();if(S.q.d!==dd)S.q={d:dd,eggs:0,upg:0,bake:0,chase:0,eagle:0,feed:0,quiz:0,earn:0,pick:rp(),c:{}};if(S.ov&&now>=S.ov.end){const r=BR[S.ov.r],g=Math.round(S.ov.val*r[3]);S.coins+=g;S.run+=g;S.q.bake++;S.ov=null;snd('sell');toast(r[1]+' дайын! +'+g+' 🪙')}const ai=AUI[S.au||0];if(ai&&now-(S.aT||0)>=ai*1000){S.aT=now;S.nests.forEach(n=>collect(n))}}
+function canP(){return S.nests.filter(n=>n.b!=null).length>=3&&S.nests.every(n=>n.b==null||(n.l||0)>=ML)}
+function bizHtml(){const l=S.au||0,gain=Math.max(1,Math.floor(Math.sqrt((S.run||0)/1000)));return `<div class='li'><div class='e'>🤖</div><div class='t'><b>Автожинағыш · ${l}/3</b><small>${l?'Әр '+AUI[l]+' сек сайын жинайды':'Жұмыртқаны өзі жинайды'}</small></div><button onclick='buyAuto()' ${l>=3||S.coins<AUC[l]?'disabled':''}>${l>=3?'Макс':'🪙 '+AUC[l]}</button></div><div class='li'><div class='e'>🪶</div><div class='t'><b>Бизнесті кеңейту</b><small>3+ ұя, бәрі ${ML}⭐ болғанда. Алатының: ${gain} 🪶 · қазір ${S.gf||0} (+${(S.gf||0)*10}%)</small></div><button class='g' onclick='prestige()' ${canP()?'':'disabled'}>${PC?'Растау?':'Кеңейту'}</button></div>`}
+function buyAuto(){const l=S.au||0;if(l>=3||S.coins<AUC[l])return;S.coins-=AUC[l];S.au=l+1;S.aT=Date.now();snd('buy');save();render()}
+function prestige(){if(!canP())return;if(!PC){PC=1;toast('Қайта басып растаңыз');setTimeout(()=>{PC=0},4000);render();return}PC=0;const g=Math.max(1,Math.floor(Math.sqrt((S.run||0)/1000)));S.gf=(S.gf||0)+g;S.coins=100;S.basket=0;S.avgSum=0;S.avg=1;S.run=0;S.au=0;S.ov=null;S.nests=[{b:0,t:Date.now(),e:0}];snd('new');toast('+'+g+' 🪶 Алтын қауырсын!');save();render()}
+function bakery(){if(!S.bu)return `<div class='li'><div class='e'>🥖</div><div class='t'><b>Наубайхана</b><small>Жұмыртқадан тағам пісіріп, қымбат сат</small></div><button onclick='buyBakery()' ${S.coins>=500?'':'disabled'}>🪙 500</button></div>`;const o=S.ov;let h=`<p><b>🧺 Себетте: ${S.basket} 🥚</b></p>`;if(o){const r=BR[o.r];h+=`<div class='li'><div class='e'>${r[1]}</div><div class='t'><b>${r[0]} пісіп жатыр…</b><small>${Math.max(0,Math.ceil((o.end-Date.now())/1000))} сек · түсімі 🪙 ${Math.round(o.val*r[3])}</small></div></div>`}BR.forEach((r,i)=>{h+=`<div class='li'><div class='e'>${r[1]}</div><div class='t'><b>${r[0]}</b><small>${r[2]} 🥚 → ×${r[3]} баға · ${r[4]} сек</small></div><button onclick='bake(${i})' ${o||S.basket<r[2]?'disabled':''}>Пісіру</button></div>`});return h}
+function buyBakery(){if(S.coins<500)return;S.coins-=500;S.bu=1;snd('new');save();render()}
+function bake(i){const r=BR[i];if(S.ov||S.basket<r[2])return;const v=S.avgSum/S.basket*r[2];S.avgSum-=v;S.basket-=r[2];S.ov={r:i,end:Date.now()+r[4]*1000,val:v};snd('buy');save();render()}
+function qs(){return Math.max(1,Math.round(S.nests.reduce((a,n)=>Math.max(a,n.b==null?0:price(n.b)),0)/20))}
+function quests(){return `<p class='hint'>Күнделікті тапсырмалар (күн сайын жаңарады)</p>`+QS.map((q,i)=>{const c=Math.min(q[2],S.q[q[1]]||0),dn=c>=q[2],cl=S.q.c[i];return `<div class='li'><div class='e'>${cl?'✅':'📜'}</div><div class='t'><b>${q[0]}</b><small>${c}/${q[2]} · 🪙 ${q[3]*qs()}</small></div><button class='g' onclick='claim(${i})' ${dn&&!cl?'':'disabled'}>Алу</button></div>`}).join('')}
+function claim(i){const q=QS[i];if(S.q.c[i]||(S.q[q[1]]||0)<q[2])return;S.q.c[i]=1;S.coins+=q[3]*qs();snd('sell');toast('Сыйлық алынды! 🎁');save();render()}
+function world(){return `<p class='hint'>Әр ашылған аймақ жұмыртқа бағасына +15% қосады.</p>`+RG.map((r,i)=>`<div class='li'><div class='e'>${r[1]}</div><div class='t'><b>${r[0]}${S.reg===i?' · қазір осында':''}</b><small>${r[3]}</small></div><button onclick='reg(${i})' ${S.ru[i]||S.coins>=r[2]?'':'disabled'}>${S.ru[i]?(S.reg===i?'✔':'Бару'):'🪙 '+r[2]}</button></div>`).join('')}
+function reg(i){if(!S.ru[i]){if(S.coins<RG[i][2])return;S.coins-=RG[i][2];S.ru[i]=1;snd('new')}S.reg=i;setSky(true);save();render()}
+function rbHtml(){return `<h3>📕 Қазақстан Қызыл кітабы</h3><p class='hint'>Сирек құстарды қорғауға алсаң, әрқайсысы +10% табыс береді.</p><div class='grid'>`+RB.map((r,j)=>`<div class='c' onclick='rbInfo(${j})'>${bird(28+j)}<small>${r[0]}${S.rbo[j]?' 🛡️':''}</small></div>`).join('')+'</div>'}
+function closeM(){$('m').classList.remove('on')}
+function rbInfo(j){const r=RB[j],a=S.rbo[j];$('mc').innerHTML=`<div class='pic'>${bird(28+j)}<small>2D модель</small></div><h2 style='margin:6px 0'>📕 ${r[0]}</h2><i>${r[1]}</i><div class='d'><p><b>Мәртебесі:</b> Қазақстанның Қызыл кітабына енген</p><p><b>Келбеті:</b> ${r[3]}</p><p><b>Қызық дерек:</b> ${r[2]}</p></div><button class='g' ${a||S.coins<RC[j]?'disabled':''} onclick='adopt(${j})'>${a?'🛡️ Қорғауда (+10%)':'Қорғауға алу 🪙 '+RC[j]}</button> <button onclick='closeM()'>Жабу</button>`;$('m').classList.add('on')}
+function adopt(j){if(S.rbo[j]||S.coins<RC[j])return;S.coins-=RC[j];S.rbo[j]=1;snd('new');toast('Қорғауға алынды! 🛡️');save();rbInfo(j);render()}
+S.q=S.q||{d:'',eggs:0,upg:0,bake:0,chase:0,eagle:0,c:{}};S.ru=S.ru||[1,0,0,0];S.gf=S.gf||0;S.au=S.au||0;S.rbo=S.rbo||[0,0,0];S.run=S.run||0;S.reg=S.reg||0;
+const CC=[6,10,16,22,30],CU=[500,2500,10000,40000],BC=20;S.feed=S.feed==null?10:S.feed;S.cl=S.cl||1;S.bowl=S.bowl||0;
+function copCap(){return CC[(S.cl||1)-1]}
+function fp(){return Math.max(1,Math.round(qs()*.6))}
+function coopHtml(){const l=S.cl||1,nb=S.nests.filter(n=>n.b!=null).length;return `<div class='li'><div class='e'>🛖</div><div class='t'><b>Құс үйшігі · ${l}/5</b><small>Сыйымдылық ${copCap()} · құс ${nb}. ${nb>copCap()?'Артық құстар сыртта ұйықтайды (−20% жылдамдық)':'Түнде құстар осыда ұйықтайды'}</small></div><button onclick='upCoop()' ${l>=5||S.coins<CU[l-1]?'disabled':''}>${l>=5?'Макс':'⬆ 🪙 '+CU[l-1]}</button></div>`}
+function feedHtml(){const p=fp();return `<div class='li'><div class='e'>🌾</div><div class='t'><b>Жем қоймасы: ${Math.floor(S.feed||0)}</b><small>Ыдыста: ${Math.round(S.bowl)}/${BC} · 🪙 ${p} / бірлік</small></div></div>`+[10,50,200].map(n=>`<div class='li'><div class='e'>🛍️</div><div class='t'><b>${n} бірлік жем</b><small>Тоқ құстар жұмыртқаны 50% тезірек салады</small></div><button onclick='buyFeed(${n})' ${S.coins>=n*p?'':'disabled'}>🪙 ${n*p}</button></div>`).join('')}
+function buyFeed(n){const c=n*fp();if(S.coins<c)return;S.coins-=c;S.feed=(S.feed||0)+n;snd('buy');toast('+'+n+' 🌾 жем сатып алынды');save();render()}
+function upCoop(){const l=S.cl||1;if(l>=5||S.coins<CU[l-1])return;S.coins-=CU[l-1];S.cl=l+1;snd('new');toast('Үйшік жаңартылды! 🛖'+(l+1));save();render()}
+function pour(){if(S.bowl>=BC-.5){toast('Ыдыс толы 🌾');return}if((S.feed||0)<=0){toast('Жем таусылды! Дүкенден сатып ал 🛒');return}const a=Math.min(S.feed,BC-S.bowl,8);S.feed-=a;S.bowl+=a;S.q.feed=(S.q.feed||0)+1;gx(3);snd('buy');if(window.call3d)call3d();toast('Жем салынды 🌾 −'+a+(night()?' (құстар ұйықтап жатыр)':''));save();render()}
+const RN=['Қарапайым','Сирек емес','Сирек','Эпикалық','Аңызға айналған'],RGL=[1,3,6,9];let QZ=null;
+function rar(i){return i<8?0:i<15?1:i<21?2:i<26?3:4}
+function need(){return 30*(S.fl||1)}
+function maxN(){return 4+2*(S.fl||1)}
+function breq(i){return 1+Math.floor(i/3)}
+function dm(){return Math.max(1,Math.ceil(Math.sqrt(qs())))}
+function SCAP(){return 10+5*(S.sl||0)}
+function gx(n){S.fx=(S.fx||0)+n;while(S.fx>=need()&&(S.fl||1)<20){S.fx-=need();S.fl=(S.fl||1)+1;snd('new');toast('🏅 Ферма деңгейі '+S.fl+'! Жаңа мүмкіндіктер ашылды')}}
+S.qz=S.qz||{seen:[],n:0,next:0,rec:[],best:0};S.store=S.store||[];S.sl=S.sl||0;S.dc=S.dc||{};S.dp=S.dp||{};S.cd=S.cd||'';S.bt=S.bt||'';
+if(!S.fl){S.fl=1+Math.floor((S.seen.filter(Boolean).length-1)*1.5);S.fx=0}
+QS.push(['3 рет жем салу','feed',3,150],['Викторина орындау','quiz',1,200],['Монета табу','earn',200,200]);
+function rp(){return QS.map((_,i)=>i).sort(()=>Math.random()-.5).slice(0,3)}
+['feed','quiz','earn'].forEach(k=>S.q[k]=S.q[k]||0);if(!S.q.pick)S.q.pick=rp();
+function tgt(q){return q[1]=='earn'?200*qs():q[2]}
+function quests2(){if(!S.q.pick)S.q.pick=rp();return `<p class='hint'>Күнделікті 3 тапсырма (күн сайын жаңарады)</p>`+S.q.pick.map(i=>{const q=QS[i],t=tgt(q),c=Math.min(t,S.q[q[1]]||0),dn=c>=t,cl=S.q.c[i];return `<div class='li'><div class='e'>${cl?'✅':'📜'}</div><div class='t'><b>${q[0]}${q[1]=='earn'?' ('+t+' 🪙)':''}</b><small>${c}/${t} · 🪙 ${q[3]*qs()} + 15 XP</small></div><button class='g' onclick='claim2(${i})' ${dn&&!cl?'':'disabled'}>Алу</button></div>`}).join('')}
+function claim2(i){const q=QS[i];if(S.q.c[i]||(S.q[q[1]]||0)<tgt(q))return;S.q.c[i]=1;S.coins+=q[3]*qs();gx(15);snd('sell');toast('Сыйлық алынды! 🎁');save();render()}
+function world2(){return `<p class='hint'>Әр ашылған аймақ жұмыртқа бағасына +15% қосады. Аймақтар ферма деңгейіне қарай ашылады.</p>`+RG.map((r,i)=>{const u=S.ru[i],lk=!u&&(S.fl||1)<RGL[i];return `<div class='li'><div class='e'>${r[1]}</div><div class='t'><b>${r[0]}${S.reg===i?' · қазір осында':''}</b><small>${r[3]}</small></div><button onclick='reg2(${i})' ${lk||(!u&&S.coins<r[2])?'disabled':''}>${u?(S.reg===i?'✔':'Бару'):lk?'🔒 '+RGL[i]+' дең.':'🪙 '+r[2]}</button></div>`}).join('')}
+function reg2(i){if(!S.ru[i]){if(S.coins<RG[i][2]||(S.fl||1)<RGL[i])return;S.coins-=RG[i][2];S.ru[i]=1;snd('new')}S.reg=i;setSky(true);save();render()}
+const LS2=[`<path d='M0 152L50 96L80 126L140 64L215 150L280 88L340 140L400 104V152Z' style='fill:var(--far)'/><path d='M140 64l-14 20 8-3 6 7 6-7 8 3zM280 88l-12 16 7-3 5 6 6-6 7 3zM50 96l-10 14 6-2 4 5 5-5 6 2z' fill='#fff'/><g fill='#7f90a8'><rect x='30' y='134' width='12' height='16'/><rect x='44' y='128' width='10' height='22'/><rect x='120' y='132' width='14' height='18'/><rect x='170' y='136' width='12' height='14'/><rect x='320' y='130' width='12' height='20'/><rect x='334' y='138' width='14' height='12'/><path d='M230 150l3-46h2l3 46z'/><circle cx='234' cy='102' r='3.5'/></g>`,`<g><rect x='30' y='132' width='34' height='18' fill='#ecd7ae'/><path d='M26 132l21-16 21 16z' fill='#b5532f'/><rect x='80' y='136' width='28' height='14' fill='#e6c9a0'/><path d='M76 136l18-13 18 13z' fill='#a6472a'/><rect x='300' y='130' width='32' height='20' fill='#ecd7ae'/><path d='M296 130l20-15 20 15z' fill='#b5532f'/><path d='M200 150l8-40h8l8 40z' fill='#d8c19a'/><path d='M212 108l-30-6M212 108l30 6M212 108l-6 32M212 108l6-32' stroke='#7a5a3a' stroke-width='3'/><circle cx='150' cy='144' r='9' fill='#d8b658'/><circle cx='360' cy='144' r='8' fill='#d8b658'/></g>`,`<path d='M0 152L40 100L80 130L130 70L190 140L250 90L310 140L360 80L400 120V152Z' style='fill:var(--far)'/><path d='M130 70l-12 18 7-3 5 6 6-6 7 3zM360 80l-10 14 6-2 4 5 5-5 6 2z' fill='#fff'/><g style='fill:var(--leaf)'><path d='M160 150l10-30 10 30zM180 150l10-36 10 36zM300 150l9-28 9 28z'/></g>`];
+function tos(i,ev){ev.stopPropagation();const n=S.nests[i];if(!n||n.b==null)return;if(S.store.length>=SCAP()){toast('Қойма толы 📦');return}collect(n);S.store.push({b:n.b,l:n.l||0,x:n.xp||0});n.b=null;n.l=0;n.xp=0;n.e=0;snd('pop');toast('Құс қоймаға жіберілді 📦');save();render()}
+function place(idx){const n=S.nests.find(n=>n.b==null);if(!n){toast('Бос ұя жоқ');return}const it=S.store.splice(idx,1)[0];n.b=it.b;n.l=it.l;n.xp=it.x;n.t=Date.now();n.e=0;S.seen[it.b]=true;snd('buy');save();render()}
+function sortS(k){S.ss=['t','l','r'][k];render()}
+function upStore(){const c=Math.round(150*Math.pow(1.8,S.sl||0))*dm();if((S.sl||0)>=6||S.coins<c)return;S.coins-=c;S.sl=(S.sl||0)+1;snd('buy');save();render()}
+function storeHtml(){const ss=S.ss||'t',arr=S.store.map((it,idx)=>({it,idx}));arr.sort((a,c)=>ss=='l'?c.it.l-a.it.l:ss=='r'?rar(c.it.b)-rar(a.it.b):a.it.b-c.it.b);const emp=S.nests.some(n=>n.b==null),uc=Math.round(150*Math.pow(1.8,S.sl||0))*dm();
+ return `<p><b>📦 Қойма: ${S.store.length}/${SCAP()}</b></p><div class='row'>${['Түрі','Деңгей','Сиректік'].map((a,k)=>`<button style='${ss==['t','l','r'][k]?'':'background:var(--card);color:var(--ink);border:2px solid var(--line)'}' onclick='sortS(${k})'>${a}</button>`).join('')}</div><div class='li'><div class='e'>🗄️</div><div class='t'><b>Қойма сыйымдылығын арттыру</b><small>+5 орын</small></div><button onclick='upStore()' ${(S.sl||0)>=6||S.coins<uc?'disabled':''}>${(S.sl||0)>=6?'Макс':'🪙 '+uc}</button></div>`+(arr.length?arr.map(({it,idx})=>`<div class='li'><div class='e'>${B[it.b][2]}</div><div class='t'><b>${B[it.b][0]}</b><small>${RN[rar(it.b)]} · ⭐${it.l} · XP ${it.x}</small></div><button onclick='place(${idx})' ${emp?'':'disabled'}>Ұяға</button></div>`).join(''):`<p class='hint'>Қойма бос. Ферма бөлімінде құс карточкасындағы «📦 Қоймаға» батырмасын бас.</p>`)}
+const DEC=[['apple','🌳','Алма ағаштары',300,2,0],['flw','🌷','Гүл бақшасы',150,2,0],['fnc','🚧','Алдыңғы қоршау',200,3,0],['path','🛤️','Тас жол',120,2,0],['lamp','💡','Сәндік шамдар',250,4,0],['roofB','🏠','Көк шатырлы үйшік',400,3,1],['roofG','🏠','Жасыл шатырлы үйшік',400,5,1],['bowlS','🥣','Тас жем ыдысы',300,3,2],['bowlG','🥣','Алтын жем ыдысы',1500,8,2]];
+function decorHtml(){return `<h3>🎨 Безендіру дүкені</h3>`+DEC.map((d,k)=>{const own=S.dc[d[0]],lk=(S.fl||1)<d[4],c=d[3]*dm(),on=d[5]==0?S.dp[d[0]]:d[5]==1?S.cd==d[0]:S.bt==d[0];return `<div class='li'><div class='e'>${d[1]}</div><div class='t'><b>${d[2]}</b><small>${d[5]==0?'Фермаға орналастырылады':d[5]==1?'Үйшік дизайны':'Жем ыдысының түрі'}${on?' · қолданыста':''}</small></div>${own?`<button onclick='dtog(${k})'>${on?'Алу':d[5]==0?'Қою':'Таңдау'}</button>`:`<button onclick='dbuy(${k})' ${lk||S.coins<c?'disabled':''}>${lk?'🔒 '+d[4]+' дең.':'🪙 '+c}</button>`}</div>`}).join('')}
+function dbuy(k){const d=DEC[k],c=d[3]*dm();if(S.dc[d[0]]||S.coins<c||(S.fl||1)<d[4])return;S.coins-=c;S.dc[d[0]]=1;if(d[5]==0)S.dp[d[0]]=1;else if(d[5]==1)S.cd=d[0];else S.bt=d[0];snd('new');toast(d[2]+' сатып алынды!');save();render()}
+function dtog(k){const d=DEC[k],id=d[0];if(d[5]==0)S.dp[id]=!S.dp[id];else if(d[5]==1)S.cd=S.cd==id?'':id;else S.bt=S.bt==id?'':id;snd('tab');save();render()}
+const QB=['Қазақстанның Қызыл кітабына енген қызғылт қауырсынды құс?|Қоқиқаз|Сауысқан|Көк кептер|Ала қарға','Әлемдегі ең ірі құс?|Түйеқұс|Тауық|Аққу|Қаз','Бозторғай ұясын қайда салады?|Шөп арасындағы жерге|Тау шыңына|Үй шатырына|Су үстіне','Құлақты жапалақ негізінен қай уақытта аң аулайды?|Түнде|Күндіз|Түсте|Таңертең','Колибри қандай ерекше қимыл жасай алады?|Артқа ұша алады|Суға сүңгиді|Жер астына кіреді|Мұзда жүгіреді','Тауық жұмыртқасын шамамен неше күн басады?|21 күн|7 күн|45 күн|90 күн','Үлкен шымшықтың бауыры қандай түсті?|Сары|Қызыл|Көк|Қара','Көгершіндер үйін табуға не көмектеседі?|Күн бағыты мен магнит өрісі|Тек иіс|Тек дауыс|Жұлдыз саны','Сұр құтан балық аулағанда не істейді?|Суда ұзақ қозғалмай тұрады|Түнде ән салады|Жерді қазады|Ағаштан секіреді','Үлкен сұқсырдың балапандары алғашқы аптада қайда жүреді?|Ата-анасының арқасында|Ағаш басында|Жер астында|Үйшікте','Күйкентай жемтігін іздегенде не істейді?|Ауада бір орында қалықтайды|Суға сүңгиді|Жер қазады|Ағашта ұйықтайды','Ұзынқұйрық шымшық ұясын немен жасайды?|Мүк, қына және өрмекші торымен|Тас пен темірмен|Құммен|Мұзбен','Қаздар алысқа ұшқанда қандай қатар құрайды?|Сына (V) тәрізді|Дөңгелек|Төртбұрыш|Үш қатар','Сауысқан қандай түсті?|Ақ-қара|Жасыл|Қызыл|Көгілдір','Пингвиндер көбіне қай құрлықта тіршілік етеді?|Антарктида|Азия|Еуропа|Солтүстік Америка','Қазақ аңшылығында қай құсты қолданады?|Бүркітті|Тауықты|Аққуды|Көгершінді','Аққу қауіп төнгенде қандай дыбыс шығарады?|Ысылдайды|Мияулайды|Үреді|Мөңіреді','Қара сайрақтың аталығының тұмсығы қандай?|Сары|Көк|Қызыл|Ақ','Құс қауырсыны негізінен неден тұрады?|Кератин|Темір|Шыны|Мұз','Жапалақтың басындағы «құлақтар» не?|Қауырсыннан құралған айдар|Шын құлақ|Мүйіз|Қанат','Құрлықтағы ең жылдам жануар?|Гепард|Арыстан|Түйе|Піл','Ең үлкен құрлық жануары?|Африка пілі|Жираф|Керік|Жолбарыс','Қар барысы қайда мекендейді?|Тауда|Теңізде|Құмда|Батпақта','Дельфин қандай жануар?|Сүтқоректі|Балық|Қосмекенді|Құс','Кенгуру қай құрлықтың жануары?|Австралия|Африка|Еуропа|Антарктида','Ақ аю қай аймақта тұрады?|Арктика|Антарктида|Сахара|Амазонка','Көбелектің дамуы қалай өтеді?|Жұмыртқа, құрт, қуыршақ, көбелек|Құрт, жұмыртқа, көбелек|Тікелей ұшады|Қуыршақсыз','Бал арасы бал үшін неден шырын жинайды?|Гүлден|Тастан|Судан|Топырақтан','Сайғақ қай жерде мекендейді?|Қазақ даласында|Антарктидада|Амазонкада|Мұхитта','Түйенің өркешінде не жиналады?|Май|Су|Ауа|Сүт','Су қанша градуста қатады?|0 °C|10 °C|−20 °C|100 °C','Жер Күнді шамамен қанша уақытта айналады?|1 жылда|1 күнде|1 айда|1 аптада','Бізге ең жақын жұлдыз?|Күн|Сириус|Полярлық жұлдыз|Ай','Өсімдіктер фотосинтезде не бөледі?|Оттегі|Күкірт|Көмірқышқыл газ|Сутегі','Кемпірқосақта неше түс бар?|7|5|9|12','Ең үлкен мұхит?|Тынық мұхит|Атлант мұхиты|Үнді мұхиты|Солтүстік Мұзды мұхит','Жер бетінің көп бөлігін не алып жатыр?|Су|Құрлық|Мұз|Құм','Күн мен түн неге ауысады?|Жер өз осінен айналады|Ай жасырады|Жел соғады|Бұлт жабады','Қазақстанның астанасы?|Астана|Алматы|Шымкент|Ақтау','Бәйтерек монументі қай қалада?|Астанада|Атырауда|Тараз|Орал','Астана қай өзен жағасында орналасқан?|Есіл|Сырдария|Іле|Жайық','Хан Шатыр қай қалада?|Астанада|Алматыда|Қарағанды|Павлодар','Іле Алатауының етегінде қай қала орналасқан?|Алматы|Атырау|Қостанай|Көкшетау','Бурабай қай облыста?|Ақмола облысы|Маңғыстау|Қызылорда|Жамбыл','Балқаш көлінің ерекшелігі?|Бір бөлігі тұщы, бір бөлігі тұзды|Толық тұщы|Толық тұзды|Көлі жоқ','Қазақстан аумағы бойынша әлемде нешінші орында?|9-орын|1-орын|3-орын|20-орын','Байқоңыр ғарыш айлағы қай облыста?|Қызылорда|Алматы|Павлодар|Ақтөбе','Қазақстан Тәуелсіздік күні?|16 желтоқсан|1 қаңтар|9 мамыр|7 шілде','Қазақстанның ұлттық валютасы?|Теңге|Сом|Рубль|Манат','Қазақстанның батысындағы теңіз?|Каспий теңізі|Қара теңіз|Жерорта теңізі|Балтық теңізі','Қазақстанмен шекаралас ел?|Қытай|Жапония|Үндістан|Франция','Наурыз мейрамы қай мезгілде тойланады?|Көктемде|Қыста|Жазда|Күзде','Қазақтың ұлттық музыкалық аспабы?|Домбыра|Рояль|Гитара|Арфа','Эйфель мұнарасы қай қалада?|Париж|Рим|Лондон|Берлин','Ніл өзені қай құрлықта?|Африка|Азия|Еуропа|Австралия','Жапонияның астанасы?|Токио|Пекин|Сеул|Бангкок','Эверест қай тау жүйесінде?|Гималай|Альпі|Анд|Алатау','Ең үлкен құрлық?|Азия|Африка|Еуропа|Австралия','Амазонка өзені қай құрлықта?|Оңтүстік Америка|Африка|Азия|Еуропа','Бір сағатта неше минут бар?|60|100|30|24','Үшбұрышта неше қабырға бар?|3|4|5|6','Қызыл мен сары түсті араластырса не шығады?|Қызғылт сары|Жасыл|Күлгін|Көк','7 × 6 нешеге тең?|42|36|48|49','Қан айдайтын ағза?|Жүрек|Өкпе|Бауыр|Асқазан','Бір жылда неше маусым бар?|4|3|5|6','1 метр неше сантиметр?|100|10|1000|50','Бауырсақ неден жасалады?|Қамырдан|Мұздан|Қағаздан|Темірден','Бір аптада неше күн бар?|7|5|6|8'];
+function qzStart(){const z=S.qz;if(Date.now()<z.next)return;let ids=QB.map((_,i)=>i).filter(i=>!z.seen.includes(i));if(ids.length<5){z.seen=[];ids=QB.map((_,i)=>i)}ids.sort(()=>Math.random()-.5);QZ={ids:ids.slice(0,5),i:0,ok:0,a:null,o:null,fin:null};qzOpts();snd('tab');render()}
+function qzOpts(){const q=QB[QZ.ids[QZ.i]].split('|');QZ.o=q.slice(1).map((t,k)=>[t,k==0]).sort(()=>Math.random()-.5);QZ.a=null}
+function qzAns(k){if(QZ.a!=null)return;QZ.a=k;S.qz.seen.push(QZ.ids[QZ.i]);if(QZ.o[k][1]){QZ.ok++;snd('buy')}else snd('pop');save();render()}
+function qzNext(){QZ.i++;if(QZ.i>=5){qzEnd();return}qzOpts();render()}
+function qzClose(){QZ=null;render()}
+function giftBird(){const own=new Set([...S.nests.filter(n=>n.b!=null).map(n=>n.b),...S.store.map(s=>s.b)]),rec=S.qz.rec||(S.qz.rec=[]),pool=B.map((_,i)=>i).filter(i=>!own.has(i)&&!rec.includes(i));if(!pool.length){const c=60*qs();S.coins+=c;return '<br>Барлық құс бар! Орнына +'+c+' 🪙'}
+ const w=pool.map(i=>Math.pow(.9,i));let r=Math.random()*w.reduce((a,b)=>a+b,0),i=pool[0];for(let j=0;j<pool.length;j++){r-=w[j];if(r<=0){i=pool[j];break}}
+ const n=S.nests.find(n=>n.b==null);if(n){n.b=i;n.l=0;n.xp=0;n.t=Date.now();n.e=0}else if(S.store.length<SCAP())S.store.push({b:i,l:0,x:0});else{const c=100*qs();S.coins+=c;return '<br>Орын жоқ, орнына +'+c+' 🪙'}
+ rec.push(i);if(rec.length>3)rec.shift();S.seen[i]=true;return '<br>🎁 Жаңа құс: '+B[i][2]+' '+B[i][0]+' ('+RN[rar(i)]+')'+(n?'':' — қоймаға түсті')}
+function qzEnd(){const z=S.qz,ok=QZ.ok,k=qs(),c=[0,5,10,15,20,30][ok]*k;S.coins+=c;S.run+=c;S.q.earn=(S.q.earn||0)+c;z.n++;z.best=Math.max(z.best||0,ok);z.next=Date.now()+90000;S.q.quiz=(S.q.quiz||0)+1;gx(10+ok*3);
+ let msg='Сыйақы: +'+c+' 🪙';const p=ok==5?Math.min(.95,.6+.05*z.n):ok==4?.3:ok==3?.12:0;if(Math.random()<p)msg+=giftBird();else if(ok>=2){const e=ok*2;S.basket+=e;S.avgSum=(S.avgSum||0)+e*Math.max(1,k*2);msg+='<br>🥚 +'+e+' жұмыртқа сыйлық'}
+ QZ.fin=msg;snd('new');save();render()}
+function quizHtml(){const z=S.qz;if(!QZ){const w=Math.max(0,Math.ceil((z.next-Date.now())/1000));return `<div class='li'><div class='e'>🧠</div><div class='t'><b>Құс викторинасы</b><small>5 сұрақ · 5/5 болса 30🪙 + құс сыйлығы! Өтілді: ${z.n} · рекорд ${z.best||0}/5 · база: ${QB.length} сұрақ</small></div><button class='g' onclick='qzStart()' ${w?'disabled':''}>${w?w+' с':'Бастау'}</button></div><p class='hint'>Сыйақы ферма деңгейіне қарай өседі. Әр 90 секунд сайын қолжетімді. Көбірек өткен сайын құс сыйлығының мүмкіндігі артады.</p>`}
+ if(QZ.fin)return `<div class='li'><div class='e'>🏆</div><div class='t'><b>Нәтиже: ${QZ.ok}/5</b><small>${QZ.fin}</small></div><button onclick='qzClose()'>Жабу</button></div>`;
+ const q=QB[QZ.ids[QZ.i]].split('|');return `<p><b>Сұрақ ${QZ.i+1}/5</b></p><div class='bar'><i style='width:${(QZ.i+(QZ.a!=null?1:0))*20}%'></i></div><p><b>${q[0]}</b></p>`+QZ.o.map((o,k)=>`<button class='qb ${QZ.a==null?'':o[1]?'ok':QZ.a==k?'no':''}' onclick='qzAns(${k})'>${o[0]}</button>`).join('')+(QZ.a!=null?`<p>${QZ.o[QZ.a][1]?'✅ Дұрыс!':'❌ Қате'}</p><button class='g' onclick='qzNext()'>${QZ.i>=4?'Нәтиже':'Келесі →'}</button>`:'')}
+(function(){const nm=B.map(b=>b[0]),lt=B.map(b=>b[1]),sts=[...new Set(B.map(b=>b[3]))],tc={};D.forEach(d=>tc[d[1]]=(tc[d[1]]||0)+1);
+const pk=(a,ex,n)=>a.filter(x=>x!==ex).sort(()=>Math.random()-.5).slice(0,n).join('|');QB.length=0;
+B.forEach((b,i)=>{QB.push('Бұл қай құс? «'+b[4]+'»|'+b[0]+'|'+pk(nm,b[0],3));
+ QB.push('Сыртқы келбеті бойынша қай құс? «'+D[i][0]+'»|'+b[0]+'|'+pk(nm,b[0],3));
+ QB.push(b[0]+' қандай құс?|'+b[3]+'|'+pk(sts,b[3],3));
+ QB.push(b[0]+' құсының латынша атауы?|'+b[1]+'|'+pk(lt,b[1],3));
+ if(tc[D[i][1]]==1)QB.push('Тұрғындарға кеңес: «'+D[i][1]+'» Бұл қай құс туралы?|'+b[0]+'|'+pk(nm,b[0],3))});
+if(S.qz.v!=='b2'){S.qz.seen=[];S.qz.v='b2'}})();
+(function(){if(!window.THREE)return;const T=THREE,SZ=[1,.6,.6,.65,.65,1.05,.9,.5,.9,.6,.45,.5,.55,.55,.95,.6,.95,.6,1.2,.45,1.3,1.1,.75,.9,1,1,.6,1.3];
+const R=new T.WebGLRenderer({antialias:true,alpha:true});R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));R.shadowMap.enabled=true;R.shadowMap.type=T.PCFSoftShadowMap;R.setClearColor(0x000000,0);
+const cv=R.domElement;cv.style.cssText='width:100%;height:100%;display:block;touch-action:manipulation';
+const sc=new T.Scene(),cam=new T.PerspectiveCamera(40,1.5,.1,60);cam.position.set(0,4.6,9);cam.lookAt(0,1.9,0);
+const hemi=new T.HemisphereLight(0xffffff,0x7a9a5a,.75),sun=new T.DirectionalLight(0xfff2d0,.95);sun.position.set(-4,8,5);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.bias=-.0005;Object.assign(sun.shadow.camera,{left:-7,right:7,top:5,bottom:-5,near:1,far:22});sun.shadow.camera.updateProjectionMatrix();sc.add(hemi,sun);
+const gr=new T.Mesh(new T.PlaneGeometry(16,9),new T.ShadowMaterial({opacity:.3}));gr.rotation.x=-Math.PI/2;gr.receiveShadow=true;sc.add(gr);
+const gS=new T.SphereGeometry(1,14,10),gC=new T.ConeGeometry(1,1,10),gY=new T.CylinderGeometry(1,1,1,8),gT=new T.TorusGeometry(.25,.035,6,18),mc={},BS=[],ray=new T.Raycaster(),mv=new T.Vector2(),L=(a,b,k)=>a+(b-a)*k;
+const mt=c=>mc[c]||(mc[c]=new T.MeshLambertMaterial({color:c}));
+function m(g,c,sx,sy,sz,x,y,z,p){const o=new T.Mesh(g,mt(c));o.scale.set(sx,sy,sz);o.position.set(x,y,z);o.castShadow=true;p.add(o);return o}
+function build(i){const [bd,hd,bl,wg,bk,nk,tl,cr,mk]=P[i],g=new T.Group(),owl=cr=='e',lh=.28+.1*nk,by=lh+.3,body=new T.Group();body.position.y=by;g.add(body);
+ m(gS,bd,.42,.38,.58,0,0,0,body);m(gS,bl,.34,.27,.46,0,-.1,.09,body);
+ const tail=m(gC,wg,.17,.3+.25*tl,.05,0,.05,-.62-.12*tl,body);tail.rotation.x=-Math.PI/2+.35;
+ const wings=[-1,1].map(s=>{const p=new T.Group();p.position.set(s*.4,.1,0);body.add(p);const w=m(gS,wg,.07,.26,.44,s*.03,-.12,-.05,p);w.rotation.z=s*.1;return p});
+ const nl=[0,.25,.7][nk],neck=new T.Group();neck.position.set(0,nk==2?.2:.15,.4);neck.rotation.order='YXZ';body.add(neck);
+ if(nl)m(gY,hd,.08,nl,.08,0,nl/2,.03,neck);
+ const hr=nk==2?.14:.2,head=new T.Group();head.position.set(0,nl+.1,.06);neck.add(head);
+ m(gS,hd,hr,hr,hr*1.05,0,0,0,head);if(mk)m(gS,mk,hr*.7,hr*.3,hr*.7,0,hr*.6,hr*.1,head);
+ const bl2=hr*(nk==2?2.2:1.1),bkm=m(gC,bk,hr*.38,bl2,hr*.38,0,0,hr*.9+bl2/2,head);bkm.rotation.x=Math.PI/2;
+ [-1,1].forEach(s=>m(gS,owl?'#f08a1c':'#111',owl?.06:.035,owl?.06:.035,owl?.03:.035,s*hr*.55,hr*.2,hr*.8,head));
+ if(owl){[-1,1].forEach(s=>{const e=m(gC,'#5a4630',hr*.25,hr*.7,hr*.25,s*hr*.6,hr*.95,0,head);e.rotation.z=-s*.2})}else if(cr){const c=m(gC,cr,hr*.25,hr*.8,hr*.25,0,hr,-hr*.3,head);c.rotation.x=-.5}
+ const hip=by-.15,legs=[-1,1].map(s=>{const p=new T.Group();p.position.set(s*.13,hip,.03);g.add(p);m(gY,'#c9822a',.03,hip,.03,0,-hip/2,0,p);m(gS,'#c9822a',.07,.025,.1,0,-hip+.02,.04,p);return p});
+ g.userData={body,neck,wings,legs,by,nl,top:by+.45+nl+hr};return g}
+let first=true;
+function mkb(i,n){const g=build(n.b),b={ni:i,s:n.b,g,sg:first?1:0,st:'idle',t:1,rt:0,ph:0,hy:0,lv:-1,pl:0,wr:1,wz:.5,nt:null,slot:0,ins:false,xt:0,nd:0,cap:true,ph0:Math.random()*6,home:new T.Vector3(),tg:new T.Vector3()};g.userData.bird=b;g.rotation.y=Math.random()*6.28;g.scale.setScalar(.001);sc.add(g);return b}
+function halo(b){const u=b.g.userData;if(b.lv>=5&&!u.halo){const h=new T.Mesh(gT,mt('#ffd54f'));h.rotation.x=Math.PI/2;h.position.y=u.top;h.scale.setScalar(1.6);u.halo=h;b.g.add(h)}else if(b.lv<5&&u.halo){b.g.remove(u.halo);u.halo=null}}
+function layout(){const n=BS.length,rows=n<=4?1:n<=10?2:3,cols=Math.ceil(n/rows),x0=-FW()+1.7,cw=(FW()-.2-x0)/cols;BS.forEach((b,j)=>{const r=Math.floor(j/cols),c=j%cols;b.home.set(x0+(c+.5)*cw,0,rows==1?.4:-.9+2.6*r/(rows-1));b.cap=j<copCap();b.wr=Math.min(1.1,cw*.33);b.wz=rows==1?.8:.35;if(!b.pl){b.pl=1;b.g.position.copy(b.home)}else if(!night()&&!b.ins){b.st='walk';b.tg.copy(b.home);b.t=8}})}
+function sync(){let ch=0;if(lastCl!==(S.cl||1)){lastCl=S.cl||1;coopUpd();ch=1}for(let k=BS.length-1;k>=0;k--){const b=BS[k],n=S.nests[b.ni];if(!n||n.b!==b.s){sc.remove(b.g);BS.splice(k,1);ch=1}}
+ S.nests.forEach((n,i)=>{if(n.b==null)return;let b=BS.find(x=>x.ni==i);if(!b){b=mkb(i,n);BS.push(b);ch=1}const lv=n.l||0;if(lv!==b.lv){b.lv=lv;halo(b)}});
+ if(ch){BS.sort((a,c)=>a.ni-c.ni);layout()}first=false}
+function updOld(b,dt,tm){const g=b.g,u=g.userData,nk=u.neck,legs=u.legs,wings=u.wings,k=Math.min(1,dt*8);
+ if(b.sg<1)b.sg=Math.min(1,b.sg+dt*1.8);const e=1+2.70158*Math.pow(b.sg-1,3)+1.70158*Math.pow(b.sg-1,2);g.scale.setScalar(Math.max(.001,SZ[b.s]*.8*(1+.06*b.lv)*e));
+ b.t-=dt;let walk=0,pitch=0,flap=0,hop=0;
+ if(b.rt>0){b.rt-=dt;flap=1;hop=Math.abs(Math.sin((1.2-b.rt)*Math.PI*2.5))*.5;g.rotation.y+=dt*9;pitch=-.3;if(b.rt<=0){b.st='idle';b.t=1}}
+ else if(b.st=='walk'){const dx=b.tg.x-g.position.x,dz=b.tg.z-g.position.z,d=Math.hypot(dx,dz);if(d<.1||b.t<=0){b.st='idle';b.t=1+Math.random()*2}else{walk=1;let df=Math.atan2(dx,dz)-g.rotation.y;df=Math.atan2(Math.sin(df),Math.cos(df));g.rotation.y+=df*Math.min(1,dt*6);const sp=Math.min(d,.7*dt*(.6+SZ[b.s]*.5));g.position.x+=dx/d*sp;g.position.z+=dz/d*sp}}
+ else if(b.st=='peck'){pitch=(u.nl>.3?.95:.6)+.3*Math.sin(tm*15);if(b.t<=0){b.st='idle';b.t=1+Math.random()*2}}
+ else if(b.st=='flap'){flap=1;hop=Math.abs(Math.sin(tm*14))*.12;if(b.t<=0){b.st='idle';b.t=1.5}}
+ else if(b.t<=0){const r=Math.random();if(r<.4){b.st='walk';b.t=7;b.tg.set(b.home.x+(Math.random()*2-1)*b.wr,0,b.home.z+(Math.random()*2-1)*b.wz)}else if(r<.62){b.st='peck';b.t=1.7}else if(r<.72){b.st='flap';b.t=1.1}else{b.hy=(Math.random()*2-1)*1.1;b.t=1+Math.random()*1.5}}
+ b.ph+=dt*(walk?11:0);
+ legs[0].rotation.x=L(legs[0].rotation.x,Math.sin(b.ph)*.7*walk,k);legs[1].rotation.x=L(legs[1].rotation.x,-Math.sin(b.ph)*.7*walk,k);
+ u.body.position.y=u.by+Math.abs(Math.sin(b.ph))*.05*walk;g.position.y=hop;
+ nk.rotation.x=L(nk.rotation.x,pitch+(walk?Math.sin(b.ph*.5)*.12:0),k);nk.rotation.y=L(nk.rotation.y,b.st=='idle'?b.hy:0,Math.min(1,dt*5));
+ wings.forEach((w,j)=>{const s=j?1:-1,a=flap?Math.sin(tm*30)*.5+.6:.05;w.rotation.z=L(w.rotation.z,s*a,Math.min(1,dt*20))})}
+const BW=new T.Vector3(1,0,-.3),DR=new T.Vector3(),SL=[],gB=new T.BoxGeometry(1,1,1);let lastCl=0,pb=0;
+const winMat=new T.MeshLambertMaterial({color:'#8a6a35',emissive:0x000000}),roofMat=new T.MeshLambertMaterial({color:'#c0502e'});
+function bx(w,h,d,c,x,y,z,p,sh){const o=new T.Mesh(gB,typeof c=='string'?mt(c):c);o.scale.set(w,h,d);o.position.set(x,y,z);o.castShadow=sh!==0;o.receiveShadow=true;p.add(o);return o}
+(function(){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),gd=x.createRadialGradient(128,128,20,128,128,126);gd.addColorStop(0,'rgba(120,190,90,.85)');gd.addColorStop(.7,'rgba(110,180,85,.6)');gd.addColorStop(1,'rgba(110,180,85,0)');x.fillStyle=gd;x.fillRect(0,0,256,256);x.globalAlpha=.55;for(let i=0;i<1400;i++){const a=Math.random()*6.28,r=Math.sqrt(Math.random())*95;x.fillStyle=['#5f9f49','#8ccf6a','#4f8f3f','#a2d878'][i%4];x.fillRect(128+Math.cos(a)*r,128+Math.sin(a)*r,2,4)}
+ const p=new T.Mesh(new T.PlaneGeometry(10.5,4.6),new T.MeshLambertMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false}));p.rotation.x=-Math.PI/2;p.position.set(0,-.01,.6);p.receiveShadow=true;sc.add(p)})();
+const fe=new T.Group();sc.add(fe);for(let x=-4.4;x<=4.5;x+=.8)bx(.08,.62,.08,'#a67b4a',x,.31,-3.15,fe,0);[.22,.45].forEach(y=>bx(8.9,.05,.05,'#b98b55',0,y,-3.15,fe,0));[-3.1,-2.3,-1.5].forEach(z=>bx(.08,.62,.08,'#a67b4a',4.4,.31,z,fe,0));[.22,.45].forEach(y=>bx(.05,.05,1.7,'#b98b55',4.4,y,-2.3,fe,0));
+function tree(x,z,s){const g=new T.Group();g.position.set(x,0,z);sc.add(g);m(gY,'#7a4f2a',.12*s,.8*s,.12*s,0,.4*s,0,g);m(gS,'#4f9a45',.6*s,.55*s,.6*s,0,1.15*s,0,g);m(gS,'#5aa850',.42*s,.4*s,.42*s,.3*s,.9*s,.12*s,g);return g}
+const T1=tree(4,-2.3,1.2),T2=tree(-4.3,-.2,.9),T3=tree(-1.6,-2.6,.8);
+[[-2,-2.8,.5],[2.3,-2.9,.6],[4,.9,.45],[-4.1,1.2,.4]].forEach(([x,z,s])=>{m(gS,'#3f8a3f',s,s*.75,s,x,s*.6,z,sc);m(gS,'#4f9a45',s*.7,s*.55,s*.7,x+s*.5,s*.4,z+.1,sc)});
+const bg=new T.Group();bg.position.copy(BW);bg.userData.kind='bowl';sc.add(bg);m(gY,'#8b5a2b',.62,.2,.62,0,.1,0,bg);m(gY,'#4a2c12',.5,.02,.5,0,.205,0,bg);const food=m(gS,'#e8c44a',.46,.16,.46,0,.21,0,bg);food.castShadow=false;
+m(gY,'#d9c08a',.3,.5,.3,BW.x+1.5,.25,BW.z-.55,sc);m(gS,'#c9a96a',.24,.16,.24,BW.x+1.5,.56,BW.z-.55,sc);
+for(let k=0;k<7;k++){const a=k/7*6.28+.3,f=new T.Group();f.position.set(BW.x+Math.cos(a)*1.55,0,BW.z+Math.sin(a)*1.3);sc.add(f);m(gY,'#3f8a3f',.015,.18,.015,0,.09,0,f).castShadow=false;m(gS,['#ff8fb1','#ffd54f','#fff','#b39ddb'][k%4],.07,.07,.07,0,.2,0,f).castShadow=false}
+const st=[];for(let i=0;i<6;i++){const o=m(gS,'#c9a66b',.2,.03,.14,0,.01,0,sc);o.castShadow=false;st.push(o)}
+const cg=new T.Group();cg.position.set(-3.2,0,-2.2);cg.userData.kind='coop';sc.add(cg);const ext=new T.Group(),chim=new T.Group();cg.add(ext,chim);
+[[-.95,-.7],[.95,-.7],[-.95,.7],[.95,.7]].forEach(([x,z])=>bx(.12,.25,.12,'#9a6230',x,.125,z,cg));
+bx(2.2,1.1,1.7,'#b97a3e',0,.8,0,cg);[-.9,-.6,.6,.9].forEach(x=>bx(.03,1,.02,'#9a6230',x,.8,.86,cg,0));
+bx(.72,.88,.04,'#e0b070',0,.7,.87,cg);bx(.56,.74,.05,'#2b1a0e',0,.66,.88,cg);bx(.44,.38,.04,'#e0b070',.78,.98,.87,cg);bx(.34,.28,.05,winMat,.78,.98,.885,cg);
+const ramp=bx(.5,.05,1,'#c89a5a',0,.13,1.34,cg);ramp.rotation.x=.27;
+[-1,1].forEach(s=>{const r=bx(1.45,.09,2,roofMat,s*.62,1.73,0,cg);r.rotation.z=-s*.55});
+function tri(z){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute([-1.1,0,0,1.1,0,0,0,.72,0],3));g.computeVertexNormals();const o=new T.Mesh(g,new T.MeshLambertMaterial({color:'#b97a3e',side:T.DoubleSide}));o.position.set(0,1.35,z);o.castShadow=true;cg.add(o)}tri(.86);tri(-.86);
+bx(.04,.7,.04,'#6b4a2a',0,2.43,0,ext);const fl=m(gC,'#e04a4a',.12,.32,.02,.17,2.65,0,ext);fl.rotation.z=-Math.PI/2;bx(.26,.5,.26,'#9a8a7a',.5,2.05,-.5,chim);
+function coopUpd(){const l=S.cl||1,s=.55*(1+.06*(l-1));cg.scale.setScalar(s);DR.set(cg.position.x,0,cg.position.z+1.8*s);ext.visible=l>=2;chim.visible=l>=3;roofMat.color.set(l>=5?'#e0a62e':({roofB:'#3b82c4',roofG:'#4f9a45'})[S.cd]||'#c0502e');st.forEach((o,i)=>{const t=(i+1)/7;o.position.set(DR.x+(BW.x-DR.x)*t,.01,DR.z+(BW.z-DR.z)*t+.15)})}
+coopUpd();
+const D3={},lampMat=new T.MeshLambertMaterial({color:'#fff2b0',emissive:0x000000}),FW=()=>Math.min(4.4,Math.tan(20*Math.PI/180)*9.8*cam.aspect*.85);
+function grp(){const g=new T.Group();sc.add(g);return g}
+D3.apple=grp();[[2.4,-2.2,1],[-.2,-2.5,.9]].forEach(([x,z,s])=>{const g=new T.Group();g.position.set(x,0,z);D3.apple.add(g);m(gY,'#7a4f2a',.12*s,.8*s,.12*s,0,.4*s,0,g);m(gS,'#4f9a45',.62*s,.55*s,.62*s,0,1.15*s,0,g);for(let k=0;k<6;k++)m(gS,'#e04a4a',.06,.06,.06,Math.cos(k*1.05)*.52*s,1.1*s+Math.sin(k*2.1)*.2,Math.sin(k*1.05)*.52*s,g)});
+D3.flw=grp();bx(1.5,.1,.8,'#7a4f2a',-2.2,.05,2,D3.flw,0);for(let k=0;k<14;k++){const x=-2.85+(k%7)*.22,z=1.8+(k>6?.3:0);m(gY,'#3f8a3f',.015,.2,.015,x,.2,z,D3.flw).castShadow=false;m(gS,['#ff8fb1','#ffd54f','#fff','#b39ddb','#ff7a59'][k%5],.07,.07,.07,x,.36,z,D3.flw).castShadow=false}
+D3.fnc=grp();for(let x=-4.4;x<=4.5;x+=.8)bx(.08,.5,.08,'#a67b4a',x,.25,2.55,D3.fnc,0);[.18,.38].forEach(y=>bx(8.9,.05,.05,'#b98b55',0,y,2.55,D3.fnc,0));
+D3.lamp=grp();[[-1,-.9],[3,-.9]].forEach(([x,z])=>{bx(.06,1.2,.06,'#4a3a2a',x,.6,z,D3.lamp);const b=new T.Mesh(gS,lampMat);b.scale.setScalar(.13);b.position.set(x,1.28,z);D3.lamp.add(b)});
+function dec3d(){const p=S.dp||{};D3.apple.visible=!!p.apple;D3.flw.visible=!!p.flw;D3.fnc.visible=!!p.fnc;D3.lamp.visible=!!p.lamp;st.forEach(o=>o.visible=!!p.path);bg.children[0].material=mt(({bowlS:'#9a9a9a',bowlG:'#e0a62e'})[S.bt]||'#8b5a2b');coopUpd()}
+function fit(){const fw=FW();cg.position.set(-fw+.8,0,-1);T1.position.set(fw-.25,0,-1.5);T1.scale.setScalar(.65);T2.visible=false;T3.visible=false;fe.position.z=1.1;D3.apple.scale.setScalar(.7);D3.apple.children[1].visible=false;dec3d()}
+function bowlUpd(){const f=Math.min(1,S.bowl/BC);food.visible=S.bowl>.05;food.scale.set(.2+.26*f,.04+.12*f,.2+.26*f);if(pb>0&&S.bowl<=0){S.bowl=0;toast(S.feed>0?'Ыдыс бос! Жем сал 🌾':'Жем таусылды! Дүкенден сатып ал 🛒')}pb=S.bowl}
+function freeSlot(b){if(b.slot){SL[b.slot-1]=null;b.slot=0}}
+function takeSlot(b){for(let i=0;i<6;i++)if(!SL[i]){SL[i]=b;b.slot=i+1;const a=i/6*6.28+.4;b.tg.set(BW.x+Math.cos(a)*.95,0,BW.z+Math.sin(a)*.8);b.st='goeat';b.t=12;return true}return false}
+window.call3d=function(){if(night())return;BS.filter(b=>!b.ins&&!b.slot&&b.rt<=0).sort((a,c)=>a.g.position.distanceTo(BW)-c.g.position.distanceTo(BW)).slice(0,6).forEach(b=>takeSlot(b))};
+function upd(b,dt,tm){const g=b.g,u=g.userData,nk=u.neck,legs=u.legs,wings=u.wings,k=Math.min(1,dt*8),nt=night();
+ if(b.sg<1)b.sg=Math.min(1,b.sg+dt*1.8);const e=1+2.70158*Math.pow(b.sg-1,3)+1.70158*Math.pow(b.sg-1,2);g.scale.setScalar(Math.max(.001,SZ[b.s]*.95*(1+.06*b.lv)*e));
+ if(nt!==b.nt){const ini=b.nt==null;b.nt=nt;freeSlot(b);if(nt){if(ini){if(b.cap){b.ins=true;g.visible=false}else b.st='rest'}else b.nd=1+Math.random()*7}else{b.nd=0;if(b.ins)b.xt=Math.random()*6+.1;else{b.st='idle';b.t=1}}}
+ if(b.ins){if(b.xt>0){b.xt-=dt;if(b.xt<=0){b.ins=false;g.visible=true;g.position.set(DR.x,0,DR.z+.2);b.st='walk';b.tg.copy(b.home);b.t=9}}return}
+ if(nt&&b.nd>0){b.nd-=dt;if(b.nd<=0){freeSlot(b);if(b.cap){b.st='enter';b.tg.copy(DR);b.t=20}else b.st='rest'}}
+ b.t-=dt;let walk=0,pitch=0,flap=0,hop=0,sit=0;const mvg=b.st=='walk'||b.st=='enter'||b.st=='goeat';
+ if(b.rt>0){b.rt-=dt;flap=1;hop=Math.abs(Math.sin((1.2-b.rt)*Math.PI*2.5))*.5;g.rotation.y+=dt*9;pitch=-.3;if(b.rt<=0){b.st='idle';b.t=1}}
+ else if(mvg){const dx=b.tg.x-g.position.x,dz=b.tg.z-g.position.z,d=Math.hypot(dx,dz);if(d<.12||b.t<=0){if(b.st=='enter'){b.ins=true;g.visible=false;b.xt=0;return}if(b.st=='goeat'){b.st='eat';b.t=3+Math.random()*3}else{b.st='idle';b.t=1+Math.random()*2}}else{walk=1;let df=Math.atan2(dx,dz)-g.rotation.y;df=Math.atan2(Math.sin(df),Math.cos(df));g.rotation.y+=df*Math.min(1,dt*6);const sp=Math.min(d,.7*dt*(.6+SZ[b.s]*.5));g.position.x+=dx/d*sp;g.position.z+=dz/d*sp}}
+ else if(b.st=='eat'){let df=Math.atan2(BW.x-g.position.x,BW.z-g.position.z)-g.rotation.y;g.rotation.y+=Math.atan2(Math.sin(df),Math.cos(df))*Math.min(1,dt*5);pitch=.75+.3*Math.sin(tm*13+b.ph0);if(S.bowl>0)S.bowl=Math.max(0,S.bowl-dt*.12);else b.t=0;if(b.t<=0){freeSlot(b);b.st='idle';b.t=1+Math.random()*2}}
+ else if(b.st=='rest'){sit=1;pitch=.2}
+ else if(b.st=='peck'){pitch=(u.nl>.3?.95:.6)+.3*Math.sin(tm*15);if(b.t<=0){b.st='idle';b.t=1+Math.random()*2}}
+ else if(b.st=='flap'){flap=1;hop=Math.abs(Math.sin(tm*14))*.12;if(b.t<=0){b.st='idle';b.t=1.5}}
+ else if(b.t<=0){const r=Math.random();if(!nt&&S.bowl>1&&r<.45&&takeSlot(b)){}else if(r<.6){b.st='walk';b.t=7;b.tg.set(b.home.x+(Math.random()*2-1)*b.wr,0,b.home.z+(Math.random()*2-1)*b.wz)}else if(r<.78){b.st='peck';b.t=1.7}else if(r<.86){b.st='flap';b.t=1.1}else{b.hy=(Math.random()*2-1)*1.1;b.t=1+Math.random()*1.5}}
+ b.ph+=dt*(walk?11:0);
+ legs[0].rotation.x=L(legs[0].rotation.x,Math.sin(b.ph)*.7*walk,k);legs[1].rotation.x=L(legs[1].rotation.x,-Math.sin(b.ph)*.7*walk,k);
+ u.body.position.y=L(u.body.position.y,u.by-sit*.14+Math.abs(Math.sin(b.ph))*.05*walk,k);g.position.y=hop;
+ nk.rotation.x=L(nk.rotation.x,pitch+(walk?Math.sin(b.ph*.5)*.12:0),k);nk.rotation.y=L(nk.rotation.y,b.st=='idle'?b.hy:0,Math.min(1,dt*5));
+ wings.forEach((w,j)=>{const s=j?1:-1,a=flap?Math.sin(tm*30)*.5+.6:sit?.02:.05;w.rotation.z=L(w.rotation.z,s*a,Math.min(1,dt*20))})}
+function lights(){const n=night(),w=wx();sun.intensity=(n?.3:.95)*(w==1?.75:1);sun.color.set(n?0x8899ff:0xfff2d0);hemi.intensity=n?.4:.75;winMat.emissive.setHex(n?0xffc25a:0);lampMat.emissive.setHex(n?0xffd860:0)}
+function draw(){R.render(sc,cam)}
+let last=0,tm=0,lt=1;function loop(ts){requestAnimationFrame(loop);if(!cv.isConnected||document.hidden)return;const d0=(ts-last)/1000;if(d0<.028)return;last=ts;const dt=Math.min(d0,.06);tm+=dt;lt+=dt;if(lt>1){lt=0;lights()}BS.forEach(b=>upd(b,dt,tm));bowlUpd();draw()}
+requestAnimationFrame(loop);
+let W=0,H=0;window.attach3d=function(){const h=document.getElementById('hero3d');if(!h)return;if(cv.parentNode!==h)h.appendChild(cv);const w=h.clientWidth,hh=h.clientHeight;if(w&&hh&&(w!=W||hh!=H)){W=w;H=hh;R.setSize(w,hh,false);cam.aspect=w/hh;cam.updateProjectionMatrix()}fit();sync();lights();draw()};
+cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(mv,cam);const h=ray.intersectObjects([...BS.filter(b=>!b.ins).map(b=>b.g),bg,cg],true)[0];if(!h)return;let o=h.object;while(o&&!o.userData.bird&&!o.userData.kind)o=o.parent;if(!o)return;if(o.userData.kind=='bowl'){pour();return}if(o.userData.kind=='coop'){toast('🛖 Үйшік '+(S.cl||1)+'/5 · сыйымдылық '+copCap()+' · құс '+BS.length);return}{const b=o.userData.bird;if(b.rt>0)return;freeSlot(b);b.rt=1.2;b.st='react';snd('pop');toast(B[b.s][0]+' '+B[b.s][2])}});
+})();
+setSky(true);
+tick();render();
+setInterval(()=>{tick();evs();setSky();if(S.tab!="k"&&!$("m").classList.contains("on")){render()}save()},1000);
+</script></body></html>
